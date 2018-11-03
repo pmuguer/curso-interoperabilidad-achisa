@@ -14,9 +14,8 @@ EB = ASCII_28
 CR = ASCII_13
 
 def encode_message(msg):
-    retval = [11] + [char for char in msg] + [28] + [13]
-    return bytearray(retval)
-
+    retval = SB + msg + EB + CR
+    return retval
 
 conn, addr = server_sck.accept()
 print "connected by: {}".format(addr)
@@ -34,7 +33,6 @@ while True:
             client_message = ""
             server_response = "Ok " + str(number)
             encoded_server_response = encode_message(server_response)
-            #server_response = SB + "Ok " + str(number) + EB + CR
             conn.send(encoded_server_response)
         else:
             if client_data[idx] != CR:
