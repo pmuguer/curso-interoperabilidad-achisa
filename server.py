@@ -19,13 +19,18 @@ if __name__ == "__main__":
     server_sck.listen(10)
     
     conn, addr = server_sck.accept()
-    print "connected by: {}".format(addr)
+    print "Un cliente llamó a socket.connect(). Origen: {}".format(addr)
     print ""
     while True:
-        # Se conectó un cliente, recibir datos
+        print "Server bloqueado esperando mensajes del cliente"
+        # Llamada bloqueante a recv(). El server no hará nada hasta
+        # que el cliente llame a socket.send().
         client_data = conn.recv(1024)
         if not client_data:
+            # El cliente cerró la conexión mediante socket.close(),
+            # se debe salir del loop
             break
+        # Se recibieron datos del cliente, procesarlos
         client_message = ""
         for idx in range(0, len(client_data)):
             if client_data[idx] == START_BLOCK:

@@ -1,3 +1,4 @@
+#! -*- coding: utf-8 -*-
 import socket
 
 from config import SERVER_HOST, SERVER_PORT
@@ -12,7 +13,12 @@ if __name__ == "__main__":
         encoded_message = encode_message(client_message)
         print "Enviando mensaje (en formato MLLP): -> '{}'".format(client_message)
         client_sck.send(encoded_message)
+        # La llamada a recv() es bloqueante, significa que el proceso
+        # del cliente quedará bloqueado hasta que reciba una respuesta
+        # del server
         server_data = client_sck.recv(1024)
+        print (u"Se recibio respuesta del server al mensaje enviado, ",
+            u"continua la ejecucion del cliente")
         server_message = ""
         for idx in range(0, len(server_data)):
             if server_data[idx] == START_BLOCK:
