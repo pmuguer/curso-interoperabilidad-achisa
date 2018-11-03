@@ -1,6 +1,5 @@
 #! -*- coding: utf-8 -*-
 import socket
-import time
 
 from config import SERVER_HOST, SERVER_PORT
 from mllp_helpers import START_BLOCK, END_BLOCK, CARRIAGE_RETURN, \
@@ -35,7 +34,6 @@ if __name__ == "__main__":
         for message in messages:
             print "Mensaje recibido del cliente: '{}'; " + \
                 "respondiendo con ACK".format(message)
-            time.sleep(1)
             msg_number = message[-1]
             ack_message = "Ok {}".format(msg_number)
             mllp_ack_message = create_mllp_message(ack_message)
