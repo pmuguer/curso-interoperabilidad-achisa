@@ -3,7 +3,7 @@ public class mlpp {
     static END_BLOCK = 28
     static CARRIAGE_RETURN = 13
 
-    static int[] create_mlpp_message(message) {
+    static byte[] create_mlpp_message(message) {
         def mlpp_message = []
         def msg_list = message.getBytes().toList()
         mlpp_message.addAll([this.START_BLOCK])
@@ -11,13 +11,10 @@ public class mlpp {
         mlpp_message.addAll([this.END_BLOCK])
         mlpp_message.addAll([this.CARRIAGE_RETURN])
         def char_retval = mlpp_message.toArray()
-        println char_retval
-        return char_retval
-        //return 10
-        //return 10
+        return char_retval as byte[]
     }
 
-    static String[] extract_messages_from_stream(stream) {
+    static String[] extract_messages_from_stream(byte[] stream) {
         def messages = []
         def new_message = ""
     
@@ -42,14 +39,9 @@ public class mlpp {
             } else if (msg_byte == mlpp.CARRIAGE_RETURN) {
                 // No hay que hacer nada
             } else {
-                new_message += msg_byte
+                new_message += new String(msg_byte)
             }
         }
         return messages
     }
 }
-
-//msg_mlpp = create_mlpp_message("Hola mundo")
-//println(msg_mlpp)
-//messages_list = extract_messages_from_stream(msg_mlpp)
-//println(messages_list)

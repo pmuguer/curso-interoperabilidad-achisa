@@ -1,3 +1,5 @@
+import mlpp
+
 class TCPClient {
     def TCPClient(int serverPort, String serverIP)
     {
@@ -30,5 +32,6 @@ class TCPClient {
     }
 }
 
-def client = new TCPClient(9090, "127.0.0.1")
-
+mlpp_message = mlpp.create_mlpp_message("Hola mundo 1")
+println mlpp_message
+println mlpp.extract_messages_from_stream(mlpp_message)
