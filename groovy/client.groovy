@@ -10,6 +10,8 @@ class TCPClient {
         def socket = new Socket(InetAddress.getByName(serverIP), serverPort)
         // No sé si esto es correcto, creo que el server devuelve integers
         def server_data = 0;
+        def byte[] server_data_stream;
+        def server_data_char_list = [].toList()
         println "TCPClient: conectado a " + socket.getRemoteSocketAddress()
         def input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         def output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -20,21 +22,51 @@ class TCPClient {
                 output.write( message_stream[stream_idx] ) // Agrega \n al final, el server hace readLine.
             }
             output.flush()
-            //def received_messages_count = 0;
-            //while (true) {
-            //    server_data = input.read()
-            //    server_messages = extract_messages_from_stream(server_data)
-            //    //println "TCPClient recibe: " + input.readLine()
-            //    def i;
-            //    for (i = 0; i < server_messages.size(); i ++) {
-            //        println "Respuesta recibida del servidor:";
-            //        println server_messages[i];
-            //        received_messages_count += 1;
-            //    }
-            //    if (received_messages_count == 3) {
-            //        break;
-            //    }
-            //}
+            def received_messages_count = 0;
+            def String[] server_ack_responses = [];
+            while (true) {
+
+                // Tengo que leer la respuesta de a un caracter:
+
+
+                //while (socket.isConnected() && !socket.isClosed() && server_data != -1)
+                //{
+                //    // Leer datos (se bloquea hasta que hayan datos para leer)
+                //    // se leen datos de a un Int por vez
+                //    client_data = inp.read()
+
+                //    println "Leido:"
+                //    println client_data
+                //    if (client_data == null)
+                //    {
+                //        println "El cliente ha cerrado la conexion"
+                //        break // Sale del while para cerrar la conexion desde el server
+                //    }
+                //    if (client_data != -1) {
+                //        buffered_client_stream.add(client_data)
+                //    }
+                //} // while mismo cliente
+
+                while (server_data != -1) {
+                    server_data = input.read()
+                    if (server_data != -1) {
+                        server_data_char_list.add(server_data)
+                    }
+                }
+               
+                server_data_stream = server_data_char_list.toArray(Byte) 
+                server_ack_responses = extract_messages_from_stream(server_data_stream)
+                //println "TCPClient recibe: " + input.readLine()
+                def i;
+                for (i = 0; i < server_ack_responses.size(); i ++) {
+                    println "Respuesta recibida del servidor:";
+                    println server_ack_responses[i];
+                    received_messages_count += 1;
+                }
+                if (received_messages_count == 3) {
+                    break;
+                }
+            }
         }
         catch (Exception e) {
             println e.message

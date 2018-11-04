@@ -59,7 +59,7 @@ class TCPServer {
                         //println "TCPServer recibe: " + datos_recibidos
 
                         def i = 0;
-
+                        def idx_ack = 0;
                         for (i = 0; i < messages.size(); i++) {
                             println "Mensaje recibido del cliente:";
                             println messages[i];
@@ -67,7 +67,9 @@ class TCPServer {
                             //ack_message = "Ok {}".format(msg_number)
                             mllp_ack_message = mllp.create_mllp_message("Ok")
                             //conn.send(mllp_ack_message)
-                            out.write(mllp_ack_message);
+                            for (idx_ack = 0; idx_ack < mllp_ack_message.size(); idx_ack++) {
+                                out.write(mllp_ack_message[idx_ack] as int);
+                            }
                             out.flush()
                         }
 
