@@ -11,3 +11,18 @@ o = pq.toList()
 println n
 n.addAll(pq)
 println(n)
+
+// byte[] es ArrayList
+def holamundo(byte[] hola) {
+    println hola
+}
+
+println "clase de z:"
+println z.getClass()
+println "clase de n:"
+println n.getClass()
+sarasa = n as byte[]
+println sarasa.getClass()
+println "clase de sarasa:"
+holamundo(sarasa)
+holamundo(n)
