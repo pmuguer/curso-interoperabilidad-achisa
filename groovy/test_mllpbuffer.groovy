@@ -10,6 +10,16 @@ def byte_list_to_int_list(byte_list) {
     return retval
 }
 
+
+listado_de_enteros = [65,66]
+println "listado_de_enteros: " + listado_de_enteros
+noseque_de_bytes = listado_de_enteros.toArray(Byte)
+println "noseque_de_bytes: " + noseque_de_bytes
+byte[] array_de_bytes = noseque_de_bytes
+println "array_de_bytes_de_bytes: " + array_de_bytes
+string_convertido = new String(array_de_bytes)
+println "string_convertido: " + string_convertido
+
 msg = "Pruebas de conversion de tipos de datos"
 println "Clase de 'msg': " + msg.getClass()
 msg_char_list = msg.toList()
@@ -42,7 +52,12 @@ for (j = 0; j < int_list1.size(); j++) {
 }
 
 mensaje_del_buffer = buf.pop_message()
-print mensaje_del_buffer
+println "Mensaje del buffer: " + mensaje_del_buffer
+conv1 = mensaje_del_buffer.toArray(Byte)
+println conv1
+byte[] conv2 = conv1
+conv3 = new String(conv2)
+println "Mensaje: " + conv3
 //buf.add_to_buffer(10)
 //buf.pop_message()
 //buf.add_to_buffer(mllp.START_BLOCK)
