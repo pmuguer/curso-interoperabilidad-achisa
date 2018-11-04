@@ -1,9 +1,12 @@
 import mllp
+import mllpbuffer
 
 import java.lang.reflect.Array
 
 class TCPClient {
     def TCPClient(int serverPort, String serverIP, int[] message_stream) {
+        def buffer = new mllpbuffer();
+        def mensaje_del_server = ""
         // Crea socket de conexion con el servidor,
         // especificando direccion IP y puerto del servidor.
         // "localhost" equivale a la IP 127.0.0.1
@@ -50,24 +53,31 @@ class TCPClient {
                 while (server_data != -1) {
                     server_data = input.read()
                     if (server_data != -1) {
-                        println "Recibido:"
-                        println server_data
                         server_data_char_list.add(server_data)
+                        buffer.add_to_buffer(server_data)
+                        mensaje_del_server = buffer.pop_message()
+                        if (mensaje_del_server != null) {
+                            println "Mensaje del server: " + mensaje_del_server
+                            received_messages_count += 1;
+                        }
+                        if (received_messages_count == 3) {
+                            break;
+                        } 
                     }
                 }
-               
-                server_data_stream = server_data_char_list.toArray(Byte) 
-                server_ack_responses = extract_messages_from_stream(server_data_stream)
-                //println "TCPClient recibe: " + input.readLine()
-                def i;
-                for (i = 0; i < server_ack_responses.size(); i ++) {
-                    println "Respuesta recibida del servidor:";
-                    println server_ack_responses[i];
-                    received_messages_count += 1;
-                }
-                if (received_messages_count == 3) {
-                    break;
-                }
+                break; 
+                //server_data_stream = server_data_char_list.toArray(Byte) 
+                //server_ack_responses = extract_messages_from_stream(server_data_stream)
+                ////println "TCPClient recibe: " + input.readLine()
+                //def i;
+                //for (i = 0; i < server_ack_responses.size(); i ++) {
+                //    println "Respuesta recibida del servidor:";
+                //    println server_ack_responses[i];
+                //    received_messages_count += 1;
+                //}
+                //if (received_messages_count == 3) {
+                //    break;
+                //}
             }
         }
         catch (Exception e) {

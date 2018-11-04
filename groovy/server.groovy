@@ -60,39 +60,40 @@ class TCPServer {
                                 println "El cliente ha cerrado la conexion"
                                 break // Sale del while para cerrar la conexion desde el server
                             }
-                            if (client_data != -1) {
-                                buffered_client_stream.add(client_data)
-                            }
+                            //if (client_data != -1) {
+                            //    buffered_client_stream.add(client_data)
+                            //}
                         } // while mismo cliente
 
-                        println "Stream:........."
-                        println(buffered_client_stream)
-                        //for (idx_client_data = 0; idx_client_data < client_data.)
-                        //buffered_client_stream
-                        def byte[] buffered_char_client_stream = buffered_client_stream.toArray(Byte)
-                        //messages = mllp.extract_messages_from_stream(client_data)
-                        messages = mllp.extract_messages_from_stream(buffered_char_client_stream)
-                        //println "TCPServer recibe: " + datos_recibidos
+                        //println "Stream:........."
+                        //println(buffered_client_stream)
+                        ////for (idx_client_data = 0; idx_client_data < client_data.)
+                        ////buffered_client_stream
+                        //def byte[] buffered_char_client_stream = buffered_client_stream.toArray(Byte)
+                        ////messages = mllp.extract_messages_from_stream(client_data)
+                        //messages = mllp.extract_messages_from_stream(buffered_char_client_stream)
+                        ////println "TCPServer recibe: " + datos_recibidos
 
-                        def i = 0;
-                        def idx_ack = 0;
-                        for (i = 0; i < messages.size(); i++) {
-                            println "Mensaje recibido del cliente:";
-                            println messages[i];
-                            //msg_number = message[-1]
-                            //ack_message = "Ok {}".format(msg_number)
-                            mllp_ack_message = mllp.create_mllp_message("Ok")
-                            //conn.send(mllp_ack_message)
-                            for (idx_ack = 0; idx_ack < mllp_ack_message.size(); idx_ack++) {
-                                out.write(mllp_ack_message[idx_ack] as int);
-                            }
-                            out.flush()
-                        }
+                        //def i = 0;
+                        //def idx_ack = 0;
+                        //for (i = 0; i < messages.size(); i++) {
+                        //    println "Mensaje recibido del cliente:";
+                        //    println messages[i];
+                        //    //msg_number = message[-1]
+                        //    //ack_message = "Ok {}".format(msg_number)
+                        //    mllp_ack_message = mllp.create_mllp_message("Ok")
+                        //    //conn.send(mllp_ack_message)
+                        //    for (idx_ack = 0; idx_ack < mllp_ack_message.size(); idx_ack++) {
+                        //        out.write(mllp_ack_message[idx_ack] as int);
+                        //    }
+                        //    out.flush()
+                        //}
 
                     } // cuando sale de socket.withStreams cierra los streams
                     println "TCPServer cerrando conexion con cliente"
                     if (socket.isConnected() && !socket.isClosed()) socket.close()
                 }
+                break
             } // while clientes
         }
         catch (Exception e)
@@ -103,7 +104,11 @@ class TCPServer {
         finally
         {
             println "TCPServer cerrando servidor"
-            server.close()
+            try {
+                server.close()
+            } catch (Exception ex) {
+                // Tira un error que no sé como solucionar
+            }
         }
     }
 }
