@@ -32,6 +32,16 @@ class TCPClient {
     }
 }
 
-mlpp_message = mlpp.create_mlpp_message("Hola mundo 1")
-println mlpp_message
-println mlpp.extract_messages_from_stream(mlpp_message)
+client_messages = ["Hola mundo 1", "Hola mundo 2", "Hola mundo 3"] as String[]
+println client_messages
+byte[] mllp_stream = []
+list_mllp = mllp_stream.toList()
+for (idx = 0; idx < client_messages.size(); idx++) {
+    print client_messages[idx]
+    message_stream = mlpp.create_mlpp_message("asdadasdadasd")
+    ms = message_stream.toList()
+    list_mllp.addAll(ms)
+    //for (index = 0; index < message_stream.size(); index++) {
+    //    mllp_stream.add(message_stream[index])
+    //}
+}

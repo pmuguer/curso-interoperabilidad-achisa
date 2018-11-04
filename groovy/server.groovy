@@ -1,3 +1,5 @@
+import mlpp
+
 class TCPServer {
     // Constructor
     def TCPServer(int port)
@@ -41,6 +43,8 @@ class TCPServer {
                                 break // Sale del while para cerrar la conexion desde el server
                             }
                             println "TCPServer recibe: " + datos_recibidos
+                            messages = mlpp.extract_messages_from_stream(datos_recibidos)
+                            println messages
                             // Envía respuesta
                             out.writeLine("Hola " + datos_recibidos)
                             out.flush()

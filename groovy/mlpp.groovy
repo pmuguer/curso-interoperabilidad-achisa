@@ -3,7 +3,7 @@ public class mlpp {
     static END_BLOCK = 28
     static CARRIAGE_RETURN = 13
 
-    static byte[] create_mlpp_message(message) {
+    static byte[] create_mlpp_message(String message) {
         def mlpp_message = []
         def msg_list = message.getBytes().toList()
         mlpp_message.addAll([this.START_BLOCK])
