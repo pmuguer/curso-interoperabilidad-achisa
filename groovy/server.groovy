@@ -1,7 +1,9 @@
 import mllp
+import mllpbuffer
 
 class TCPServer {
     def TCPServer(int port) {
+        def buffer = new mllpbuffer()
         try {
             def server = new ServerSocket(port)
             println "TCPServer escuchando en el puerto: " +
@@ -9,6 +11,7 @@ class TCPServer {
 
             def buffered_client_stream = [].toList()
             def idx_client_data = 0;
+            def mensaje_del_cliente;
             // Mantiene el servidor corriendo entre sucesivos clientes
             while (true) {
                 println "TCPServer hilo servidor: " + Thread.currentThread().getId()
@@ -36,9 +39,22 @@ class TCPServer {
                             // Leer datos (se bloquea hasta que hayan datos para leer)
                             // se leen datos de a un Int por vez
                             client_data = inp.read()
+                            buffer.add_to_buffer(client_data)
+                            mensaje_del_cliente = buffer.pop_message()
+                            if (mensaje_del_cliente != null) {
+                                println "Mensaje recibido:" + mensaje_del_cliente
+                                mllp_ack_message = mllp.create_mllp_message("Ok")
+                                //conn.send(mllp_ack_message)
+                                def idx_ack;
+                                for (idx_ack = 0; idx_ack < mllp_ack_message.size(); idx_ack++) {
+                                    out.write(mllp_ack_message[idx_ack] as int);
+                                }
+                                out.flush()
+                            }
+ 
 
-                            println "Leido:"
-                            println client_data
+                            //println "Leido:"
+                            //println client_data
                             if (client_data == null)
                             {
                                 println "El cliente ha cerrado la conexion"

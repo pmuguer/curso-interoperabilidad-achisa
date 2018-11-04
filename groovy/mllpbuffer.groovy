@@ -15,7 +15,9 @@ public class mllpbuffer {
         // Si existe un mensaje, devolverlo y quitar los
         // datos correspondientes del buffer
         def i = 0;
-        def retval = [];
+        def retval;
+        def string_retval;
+        def byte[] bytes_retval;
         for (i = 0; i < this.buffer.size(); i++) {
             if (this.buffer[i] == mllp.START_BLOCK) {
                 def j = i;
@@ -31,7 +33,9 @@ public class mllpbuffer {
                         }
                         // El mensaje no debe incluir los separadores,
                         // por eso uso los índices i+1 y j-1
-                        retval = this.buffer.subList(i+1, j-1)
+                        retval = this.buffer.subList(i+1, j-1).toArray(Byte)
+                        bytes_retval = retval
+                        string_retval = new String(bytes_retval)
                         def sublist = [];
                         def sublist1 = [];
                         def sublist2 = [];
@@ -44,6 +48,6 @@ public class mllpbuffer {
                 }
             }
         }
-        return retval
+        return string_retval
     }
 }

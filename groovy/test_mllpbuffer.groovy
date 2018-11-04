@@ -52,12 +52,12 @@ for (j = 0; j < int_list1.size(); j++) {
 }
 
 mensaje_del_buffer = buf.pop_message()
-println "Mensaje del buffer: " + mensaje_del_buffer
-conv1 = mensaje_del_buffer.toArray(Byte)
-println conv1
-byte[] conv2 = conv1
-conv3 = new String(conv2)
-println "Mensaje: " + conv3
+//println "Mensaje del buffer: " + mensaje_del_buffer
+//conv1 = mensaje_del_buffer.toArray(Byte)
+//println conv1
+//byte[] conv2 = conv1
+//conv3 = new String(conv2)
+println "Mensaje: " + mensaje_del_buffer
 //buf.add_to_buffer(10)
 //buf.pop_message()
 //buf.add_to_buffer(mllp.START_BLOCK)
