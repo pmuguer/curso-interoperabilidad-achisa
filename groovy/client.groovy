@@ -3,7 +3,7 @@ import mllp
 import java.lang.reflect.Array
 
 class TCPClient {
-    def TCPClient(int serverPort, String serverIP, ArrayList message_stream) {
+    def TCPClient(int serverPort, String serverIP, int[] message_stream) {
         // Crea socket de conexion con el servidor,
         // especificando direccion IP y puerto del servidor.
         // "localhost" equivale a la IP 127.0.0.1
@@ -13,9 +13,12 @@ class TCPClient {
         def output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
         try {
             // Escribe en el socket
-            output.write( message_stream ) // Agrega \n al final, el server hace readLine.
+            def stream_idx = 0;
+            for (stream_idx = 0; stream_idx < message_stream.size(); stream_idx++) {
+                output.write( message_stream[stream_idx] ) // Agrega \n al final, el server hace readLine.
+            }
             output.flush()
-            received_messages_count = 0;
+            def received_messages_count = 0;
             while (true) {
                 server_data = input.read()
                 server_messages = extract_messages_from_stream(server_data)
@@ -46,7 +49,7 @@ class TCPClient {
 
 client_messages = ["Hola mundo 1", "Hola mundo 2", "Hola mundo 3"] as String[]
 println client_messages
-byte[] mllp_stream = []
+//byte[] mllp_stream = []
 //list_mllp_stream = mllp_stream.toList()
 def ArrayList list_mllp_stream = new ArrayList();
 for (idx = 0; idx < client_messages.size(); idx++) {
@@ -60,7 +63,7 @@ for (idx = 0; idx < client_messages.size(); idx++) {
 }
 
 //def param = list_mllp_stream as byte[]
-//mllp_stream = list_mllp_stream as byte[]
-println(list_mllp_stream.getClass())
-def client = new TCPClient(9090, "127.0.0.1", list_mllp_stream)
+def mllp_stream = list_mllp_stream as int[]
+//println(list_mllp_stream.getClass())
+def client = new TCPClient(9090, "127.0.0.1", mllp_stream)
 
