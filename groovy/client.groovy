@@ -50,6 +50,8 @@ class TCPClient {
                 while (server_data != -1) {
                     server_data = input.read()
                     if (server_data != -1) {
+                        println "Recibido:"
+                        println server_data
                         server_data_char_list.add(server_data)
                     }
                 }
