@@ -19,7 +19,6 @@ class MLLPServer {
                     // Abre un nuevo hilo de atención por cada cliente nuevo
                     println "MLLPServer cliente conectado, hilo de atencion: " +
                             Thread.currentThread().getId()
-                    def String[] messages = [];
                     def byte[] mllp_ack_message = [];
                     def client_data = ""
                     // Crea un InputObjectStream y un OutputObjectStream desde el socket
@@ -40,9 +39,14 @@ class MLLPServer {
                             buffer.add_to_buffer(client_data)
                             mensaje_del_cliente = buffer.pop_message()
                             if (mensaje_del_cliente != null) {
-                                println "Mensaje recibido:" + mensaje_del_cliente
-                                mllp_ack_message = mllp.create_mllp_message("Ok")
-                                //conn.send(mllp_ack_message)
+                                // El ack del server en respuesta al mensaje del cliente
+                                // funciona en el contexto específico del ejercicio:
+                                // se esperan mensajes en los que el ultimo caracter
+                                // es el numero de mensaje. Se extrae ese ultimo caracter
+                                // y se agrega al mensaje de ack correspondiente
+                                def message_number = mensaje_del_cliente[mensaje_del_cliente.size() - 1]
+                                println "Mensaje recibido: " + mensaje_del_cliente
+                                mllp_ack_message = mllp.create_mllp_message("Ok " + message_number)
                                 def idx_ack;
                                 for (idx_ack = 0; idx_ack < mllp_ack_message.size(); idx_ack++) {
                                     out.write(mllp_ack_message[idx_ack] as int);
