@@ -11,6 +11,10 @@ class MLLPClient {
     // del mensaje. Por ejemplo, "Hola mundo 3" recibe como respuesta
     // "Ok 3"
     def MLLPClient(int serverPort, String serverIP, int[] message_stream) {
+        // message_stream: es una lista de int's que corresponden
+        // a los mensajes que se van a enviar, incluidos los separadores
+        // de MLLP
+  
         // Se usa un buffer para simplificar el procesamiento de las
         // respuestas recibidas del server
         def buffer = new mllpbuffer();
@@ -28,21 +32,33 @@ class MLLPClient {
             // Escribe en el socket
             def stream_idx = 0;
             for (stream_idx = 0; stream_idx < message_stream.size(); stream_idx++) {
-                output.write( message_stream[stream_idx] ) // Agrega \n al final, el server hace readLine.
+                // Se escribe de a un caracter el "stream" correspondiente a los
+                // mensajes que se envian usando el protocolo MLLP
+                output.write( message_stream[stream_idx] )
             }
             output.flush()
             def received_messages_count = 0;
             def String[] server_ack_responses = [];
             while (true) {
                 while (input_char != -1) {
+                    // Se espera que para cada mensaje enviado el server
+                    // devuelva una respuesta; por lo tanto se debe leer
+                    // del stream 'input'
                     input_char = input.read()
                     if (input_char != -1) {
+                        // Se agrega al buffer la respuesta recibida
+                        // caracter por caracter
                         buffer.add_to_buffer(input_char)
+                        // Si hay un mensaje completo, pop_message() lo
+                        // devuelve como un String
                         mensaje_del_server = buffer.pop_message()
                         if (mensaje_del_server != null) {
                             println "Mensaje del server: " + mensaje_del_server
                             received_messages_count += 1;
                         }
+                        // Como el ejercicio especifica que se envian 3 mensajes,
+                        // cuando se reciba el 3er ack se debe cerrar la conexion
+                        // con el server
                         if (received_messages_count == 3) {
                             break;
                         } 
