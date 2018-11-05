@@ -1,26 +1,24 @@
 import mllp
 import mllpbuffer
 
-class TCPServer {
-    def TCPServer(int port) {
+class MLLPServer {
+    def MLLPServer(int port) {
+        // Se usa un buffer para simplificar el procesamiento de los mensajes
         def buffer = new mllpbuffer()
         try {
             def server = new ServerSocket(port)
-            println "TCPServer escuchando en el puerto: " +
+            println "MLLPServer escuchando en el puerto: " +
                 server.getInetAddress() +':'+ server.getLocalPort()
 
-            def buffered_client_stream = [].toList()
-            def idx_client_data = 0;
             def mensaje_del_cliente;
             // Mantiene el servidor corriendo entre sucesivos clientes
             while (true) {
-                println "TCPServer hilo servidor: " + Thread.currentThread().getId()
+                println "MLLPServer hilo servidor: " + Thread.currentThread().getId()
                 // Espera hasta que un cliente solicite una conexión
                 server.accept() { socket ->
                     // Abre un nuevo hilo de atención por cada cliente nuevo
-                    println "TCPServer cliente conectado, hilo de atencion: " +
+                    println "MLLPServer cliente conectado, hilo de atencion: " +
                             Thread.currentThread().getId()
-                    // Variables disponibles para la atención de un cliente
                     def String[] messages = [];
                     def byte[] mllp_ack_message = [];
                     def client_data = ""
@@ -36,8 +34,8 @@ class TCPServer {
                         // El cliente puede cerrar el socket
                         while (socket.isConnected() && !socket.isClosed() && client_data != -1)
                         {
-                            // Leer datos (se bloquea hasta que hayan datos para leer)
-                            // se leen datos de a un Int por vez
+                            // Leer datos (se bloquea la thread hasta que hayan datos para leer,
+                            // es decir, hasta que el cliente envie un mensaje
                             client_data = inp.read()
                             buffer.add_to_buffer(client_data)
                             mensaje_del_cliente = buffer.pop_message()
@@ -54,7 +52,7 @@ class TCPServer {
                         } // while mismo cliente
 
                     } // cuando sale de socket.withStreams cierra los streams
-                    println "TCPServer cerrando conexion con cliente"
+                    println "MLLPServer cerrando conexion con cliente"
                     if (socket.isConnected() && !socket.isClosed()) socket.close()
                 }
                 break
@@ -67,7 +65,7 @@ class TCPServer {
         }
         finally
         {
-            println "TCPServer cerrando servidor"
+            println "MLLPServer cerrando servidor"
             try {
                 server.close()
             } catch (Exception ex) {
@@ -76,5 +74,3 @@ class TCPServer {
         }
     }
 }
-
-def server = new TCPServer(9090)
