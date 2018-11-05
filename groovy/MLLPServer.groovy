@@ -3,6 +3,13 @@ import mllpbuffer
 
 class MLLPServer {
     def MLLPServer(int port) {
+        // Server que espera mensajes utilizando el protocolo MLLP
+        // El formato de los mensajes es específico para el ejercicio;
+        // Se supone que los mensajes terminan con un número, que el
+        // server usará para construir un ACK que corresponde a ese mismo
+        // número de mensaje; por ejemplo "Hola mundo 2" recibirá como
+        // respuesta "Ok 2"
+
         // Se usa un buffer para simplificar el procesamiento de los mensajes
         def buffer = new mllpbuffer()
         try {
@@ -35,7 +42,7 @@ class MLLPServer {
                         {
                             // Leer datos (se bloquea la thread hasta que hayan datos para leer,
                             // es decir, hasta que el cliente envie un mensaje).
-                            // Se usa el método read(), que lee de a un byte por vez
+                            // Se usa el método read(), que lee de a un byte por vez;
                             // por lo tanto el "while" se ejecuta una vez por cada byte
                             // enviado por el cliente
 

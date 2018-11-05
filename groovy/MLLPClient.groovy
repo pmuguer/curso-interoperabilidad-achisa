@@ -2,7 +2,17 @@ import mllp
 import mllpbuffer
 
 class MLLPClient {
+    // Cliente que envía mensajes a un server MLLPServer
+    // El server MLLPServer espera que el cliente use el protocolo MLLP.
+    // Respecto al formato de los mensajes, el server espera un
+    // formato específico (ver la descripción del ejercicio).
+    // Cada mensaje debería terminar con un número de un dígito.
+    // El server responde con un ACK igual al numero que forma parte
+    // del mensaje. Por ejemplo, "Hola mundo 3" recibe como respuesta
+    // "Ok 3"
     def MLLPClient(int serverPort, String serverIP, int[] message_stream) {
+        // Se usa un buffer para simplificar el procesamiento de las
+        // respuestas recibidas del server
         def buffer = new mllpbuffer();
         def mensaje_del_server = ""
         // Crea socket de conexion con el servidor,
@@ -10,8 +20,7 @@ class MLLPClient {
         // "localhost" equivale a la IP 127.0.0.1
         def socket = new Socket(InetAddress.getByName(serverIP), serverPort)
         // No sé si esto es correcto, creo que el server devuelve integers
-        def server_data = 0;
-        def byte[] server_data_stream;
+        def input_char = 0;
         def server_data_char_list = [].toList()
         println "MLLPClient: conectado a " + socket.getRemoteSocketAddress()
         def input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
@@ -26,11 +35,11 @@ class MLLPClient {
             def received_messages_count = 0;
             def String[] server_ack_responses = [];
             while (true) {
-                while (server_data != -1) {
-                    server_data = input.read()
-                    if (server_data != -1) {
-                        server_data_char_list.add(server_data)
-                        buffer.add_to_buffer(server_data)
+                while (input_char != -1) {
+                    input_char = input.read()
+                    if (input_char != -1) {
+                        server_data_char_list.add(input_char)
+                        buffer.add_to_buffer(input_char)
                         mensaje_del_server = buffer.pop_message()
                         if (mensaje_del_server != null) {
                             println "Mensaje del server: " + mensaje_del_server
