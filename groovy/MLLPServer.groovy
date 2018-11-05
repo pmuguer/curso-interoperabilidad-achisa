@@ -3,12 +3,12 @@ import mllpbuffer
 
 class MLLPServer {
     def MLLPServer(int port) {
-        // Server que espera mensajes utilizando el protocolo MLLP
+        // Server que recibe y procesa mensajes utilizando el protocolo MLLP
+        //
         // El formato de los mensajes es específico para el ejercicio;
         // Se supone que los mensajes terminan con un número, que el
-        // server usará para construir un ACK que corresponde a ese mismo
-        // número de mensaje; por ejemplo "Hola mundo 2" recibirá como
-        // respuesta "Ok 2"
+        // server usará para construir un ACK correspondiente; por ejemplo
+        // "Hola mundo 2" recibirá como respuesta "Ok 2"
 
         // Se usa un buffer para simplificar el procesamiento de los mensajes
         def buffer = new mllpbuffer()
@@ -59,11 +59,12 @@ class MLLPServer {
                             if (mensaje_del_cliente != null) {
                                 // El ack del server en respuesta al mensaje del cliente
                                 // funciona en el contexto específico del ejercicio:
-                                // se esperan mensajes en los que el ultimo caracter
-                                // es el numero de mensaje. Se extrae ese ultimo caracter
-                                // y se agrega al mensaje de ack correspondiente
-                                def message_number = mensaje_del_cliente[mensaje_del_cliente.size() - 1]
-                                println "Mensaje recibido: " + mensaje_del_cliente
+                                // se esperan mensajes en los que al final del mensaje
+                                // se un espacio seguido de un número. El ack debe
+                                // responder con ese mismo numero
+                                def tokenized_msg = mensaje_del_cliente.tokenize(" ")
+                                def message_number = tokenized_msg[tokenized_msg.size() - 1]
+                                println "Mensaje recibido del cliente: " + mensaje_del_cliente
                                 // Crear el mensaje MLLP con el ack en respuesta al mensaje
                                 // del cliente
                                 mllp_ack_message = mllp.create_mllp_message("Ok " + message_number)
@@ -90,7 +91,6 @@ class MLLPServer {
         }
         finally
         {
-            println "MLLPServer cerrando servidor"
             try {
                 server.close()
             } catch (Exception ex) {
