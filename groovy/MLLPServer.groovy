@@ -20,7 +20,7 @@ class MLLPServer {
                     println "MLLPServer cliente conectado, hilo de atencion: " +
                             Thread.currentThread().getId()
                     def byte[] mllp_ack_message = [];
-                    def client_data = ""
+                    def input_byte = ""
                     // Crea un InputObjectStream y un OutputObjectStream desde el socket
                     // y se los pasa a la clausura
                     // Los streams se cierran cuando se retorna de la clausura, incluso
@@ -31,13 +31,24 @@ class MLLPServer {
 
                         // Procesamiento de la comunicación con el cliente conectado
                         // El cliente puede cerrar el socket
-                        while (socket.isConnected() && !socket.isClosed() && client_data != -1)
+                        while (socket.isConnected() && !socket.isClosed() && input_byte != -1)
                         {
                             // Leer datos (se bloquea la thread hasta que hayan datos para leer,
-                            // es decir, hasta que el cliente envie un mensaje
-                            client_data = inp.read()
-                            buffer.add_to_buffer(client_data)
+                            // es decir, hasta que el cliente envie un mensaje).
+                            // Se usa el método read(), que lee de a un byte por vez
+                            // por lo tanto el "while" se ejecuta una vez por cada byte
+                            // enviado por el cliente
+
+                            // Leo un byte
+                            input_byte = inp.read()
+                            // Se agrega el byte recibido al buffer
+                            buffer.add_to_buffer(input_byte)
+                            // Si hay un mensaje completo en el buffer, el método
+                            // lo devuelve (en formato String, sin los delimitadores
+                            // de MLLP)
                             mensaje_del_cliente = buffer.pop_message()
+                            // La siguiente condición se cumple sólo si hay un mensaje
+                            // completo en el buffer para extraer
                             if (mensaje_del_cliente != null) {
                                 // El ack del server en respuesta al mensaje del cliente
                                 // funciona en el contexto específico del ejercicio:
@@ -46,9 +57,12 @@ class MLLPServer {
                                 // y se agrega al mensaje de ack correspondiente
                                 def message_number = mensaje_del_cliente[mensaje_del_cliente.size() - 1]
                                 println "Mensaje recibido: " + mensaje_del_cliente
+                                // Crear el mensaje MLLP con el ack en respuesta al mensaje
+                                // del cliente
                                 mllp_ack_message = mllp.create_mllp_message("Ok " + message_number)
                                 def idx_ack;
                                 for (idx_ack = 0; idx_ack < mllp_ack_message.size(); idx_ack++) {
+                                    // Escribir de a un byte el mensaje de respuesta
                                     out.write(mllp_ack_message[idx_ack] as int);
                                 }
                                 out.flush()
