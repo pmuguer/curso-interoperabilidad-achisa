@@ -21,7 +21,6 @@ class MLLPClient {
         def socket = new Socket(InetAddress.getByName(serverIP), serverPort)
         // No sé si esto es correcto, creo que el server devuelve integers
         def input_char = 0;
-        def server_data_char_list = [].toList()
         println "MLLPClient: conectado a " + socket.getRemoteSocketAddress()
         def input = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         def output = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -38,7 +37,6 @@ class MLLPClient {
                 while (input_char != -1) {
                     input_char = input.read()
                     if (input_char != -1) {
-                        server_data_char_list.add(input_char)
                         buffer.add_to_buffer(input_char)
                         mensaje_del_server = buffer.pop_message()
                         if (mensaje_del_server != null) {
