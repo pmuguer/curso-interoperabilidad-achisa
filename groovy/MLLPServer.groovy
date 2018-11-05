@@ -78,8 +78,7 @@ class MLLPServer {
                         } // while mismo cliente
 
                     } // cuando sale de socket.withStreams cierra los streams
-                    println "MLLPServer cerrando conexion con cliente"
-                    if (socket.isConnected() && !socket.isClosed()) socket.close()
+                    //if (socket.isConnected() && !socket.isClosed()) socket.close()
                 }
                 break
             } // while clientes

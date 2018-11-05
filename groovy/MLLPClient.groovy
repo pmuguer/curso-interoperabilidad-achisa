@@ -82,6 +82,7 @@ class MLLPClient {
         }
         finally {
             // Cierra el socket
+            println "Cliente cerrando la conexión con el servidor..."
             if (socket.isConnected() && !socket.isClosed())
             {
                 socket.close()
