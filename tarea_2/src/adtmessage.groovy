@@ -9,6 +9,8 @@ import ca.uhn.hl7v2.model.v25.segment.PID
 import ca.uhn.hl7v2.model.v25.segment.PV1
 import ca.uhn.hl7v2.model.v25.datatype.ST
 
+import MLLPClient
+
 // Crea el mensaje ADT, ver que la versión de HL7 se establece de forma automática
 // El tipo de mensaje y evento, si interpreto bien, están determinados por la propia
 // clase: tipo de mensaje = "ADT" y evento = "A01"
@@ -113,15 +115,17 @@ HapiContext context = new DefaultHapiContext();
 Parser parser = context.getPipeParser();
 String encodedMessage = parser.encode(adt);
 
-println "ER7"
+cli = new MLLPClient(encodedMessage)
+
+//println "ER7"
 
 // Normalize de Groovy permite mostrar los <CR> (fin de segmento) que es el enter de Linux, como <CR><LF> que es el enter de Windows.
 // Sin esto, se verían todos los segmentos en la misma línea cuando trabajamos en Windows.
-println encodedMessage.normalize()
+//println encodedMessage.normalize()
 
 
 // Ahora se muestra en XML
-parser = context.getXMLParser();
-encodedMessage = parser.encode(adt);
-println "XML Encoded Message:"
-println encodedMessage
+//parser = context.getXMLParser();
+//encodedMessage = parser.encode(adt);
+//println "XML Encoded Message:"
+//println encodedMessage
