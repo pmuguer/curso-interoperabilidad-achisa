@@ -115,13 +115,14 @@ HapiContext context = new DefaultHapiContext();
 Parser parser = context.getPipeParser();
 String encodedMessage = parser.encode(adt);
 
-cli = new MLLPClient(encodedMessage)
-
-//println "ER7"
 
 // Normalize de Groovy permite mostrar los <CR> (fin de segmento) que es el enter de Linux, como <CR><LF> que es el enter de Windows.
 // Sin esto, se verían todos los segmentos en la misma línea cuando trabajamos en Windows.
-//println encodedMessage.normalize()
+println("\nEnviando al server el mensaje:")
+println encodedMessage.normalize()
+
+cli = new MLLPClient(encodedMessage)
+
 
 
 // Ahora se muestra en XML

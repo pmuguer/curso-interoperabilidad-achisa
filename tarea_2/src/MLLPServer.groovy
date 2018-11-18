@@ -19,16 +19,29 @@ class MLLPServer {
                 // En este caso, el "resulting Socket" es clientSocket
                 serverSocket.accept({ clientSocket ->
                     def buffer = new mllpbuffer()
+                    def clientMessage = ""
                     // Passes the Socket's InputStream and OutputStream to the closure.
                     clientSocket.withStreams({ input, output ->
                         def reader = input.newReader()
-                        def inputString = reader.getText()
-                        buffer.add_string_to_buffer(inputString)
-                        def clientMessage = buffer.pop_message()
-                        println(clientMessage)
-                        output << "Se recibio mensaje\n"
+                        // Traverse through each byte of the specified stream.
+                        input.eachByte { inputbyte ->
+                            //print(inputbyte)
+                            buffer.add_to_buffer(inputbyte)
+                            clientMessage = buffer.pop_message()
+                            if (clientMessage != null) {
+                                println("\nMensaje recibido del cliente:")
+                                println(clientMessage.toString().normalize())
+                            }
+                        }
+                        //def inputString = reader.getText()
+                        //println("Input string")
+                        //println(inputString)
+                        //buffer.add_string_to_buffer(inputString)
+                        //def clientMessage = buffer.pop_message()
+                        //println(clientMessage)
+                        //output << "Se recibio mensaje\n"
                     })
-                    println("Saliendo de la thread")
+                    println("\nSaliendo del thread")
                 })
             }
         } finally {

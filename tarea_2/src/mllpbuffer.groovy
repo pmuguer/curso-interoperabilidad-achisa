@@ -15,7 +15,6 @@ public class mllpbuffer {
         def i = 0;
         for (i = 0; i < values.length(); i++) {
             this.buffer.add(values[i])
-            println(values[i])
         }
     }
     public pop_message() {
