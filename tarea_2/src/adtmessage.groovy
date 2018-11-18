@@ -29,12 +29,23 @@ mshSegment.getSendingApplication().getUniversalID().setValue("1")
 // mshSegment.getSendingApplication().getNamespaceID().setValue("TestSendingSystem")
 // mshSegment.getSequenceNumber().setValue("123")
 
-
+// Se indica que la versión de HL7 es 2.5
+mshSegment.getVersionID().getVersionID().setValue("2.5")
+// Indico el tipo de mensaje (Cap 02, página 99)
+mshSegment.getMessageType().getMessageCode().setValue("ADT")
+// Indico el evento (Cap 02, página 101)
+mshSegment.getMessageType().getTriggerEvent().setValue("A01")
+// Indico la estructura del mensaje (Cap 02, página 102)
+mshSegment.getMessageType().getMessageStructure().setValue("ADT_A01")
 mshSegment.getReceivingApplication().getNamespaceID().setValue("2")
 mshSegment.getReceivingApplication().getUniversalID().setValue("2")
 // Clase TS (timestamp)
 mshSegment.getDateTimeOfMessage().getTime().setValue("20181115121200")
+// Indico el id de control
 mshSegment.getMessageControlID().setValue("1000")
+
+
+// Indico el id de procesamiento
 //Definition: This field is used to decide whether to process the message as defined in HL7 Application (level
 //        7) Processing rules.
 
@@ -46,6 +57,8 @@ mshSegment.getMessageControlID().setValue("1000")
 
 // T = "training"
 mshSegment.getProcessingID().getProcessingID().setValue("T")
+
+// Indico el modo de procesamiento
 // Processing Mode (ID)
 // http://hl7-definition.caristix.com:9010/Default.aspx?version=HL7%20v2.5.1&table=0207
 // T = "Current processing"
@@ -56,10 +69,20 @@ mshSegment.getProcessingID().getProcessingMode().setValue("T")
 // Pone datos en el segmento PID
 PID pid = adt.getPID()
 
+// Indico: identificador, nombre, apellido, fecha de nacimiento y sexo
 
-pid.getPatientName(0).getFamilyName().getSurname().setValue("Pazos")
-pid.getPatientName(0).getGivenName().setValue("Pablo")
-pid.getPatientIdentifierList(0).getIDNumber().setValue("123456")
+pid.getPatientName(0).getFamilyName().getSurname().setValue("Houssay")
+pid.getPatientName(0).getGivenName().setValue("Bernardo")
+// Fecha de nacimiento: 21/08/1921
+pid.getDateTimeOfBirth().getTime().setValue("19200821")
+pid.getAdministrativeSex().setValue("M")
+
+// Identificador único dentro del sistema público del GCBA
+pid.getPatientIdentifierList(0).getAssigningAuthority().getNamespaceID().setValue("HCE_GCBA")
+pid.getPatientIdentifierList(0).getIDNumber().setValue("201324")
+// Identificador único para Argentina (DNI, asignado por RENAPER)
+pid.getPatientIdentifierList(1).getAssigningAuthority().getNamespaceID().setValue("RENAPER")
+pid.getPatientIdentifierList(1).getIDNumber().setValue("10324121")
 
 
 PV1 patientVisit = adt.getPV1()
