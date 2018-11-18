@@ -29,13 +29,13 @@ public class mllpbuffer {
             if (this.buffer[i] == mllp.START_BLOCK) {
                 def j = i;
                 for (j = i; j < this.buffer.size(); j++) {
-                    if (this.buffer[j] == mllp.CARRIAGE_RETURN) {
+                    if (this.buffer[j] == mllp.END_BLOCK) {
                         if (j == 0) {
-                            // CR no puede ser el primer caracter
+                            // EB no puede ser el primer caracter
                             throw Exception("Mensaje mal formado")
                         }
-                        if (this.buffer[j - 1] != mllp.END_BLOCK) {
-                            // Antes de CR siempre tiene que venir EB
+                        if (this.buffer[j - 1] != mllp.CARRIAGE_RETURN) {
+                            // Antes de EB siempre tiene que venir CR
                             throw Exception("Mensaje mal formado")
                         }
                         // El mensaje no debe incluir los separadores,
