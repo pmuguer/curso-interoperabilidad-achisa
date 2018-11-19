@@ -4,8 +4,6 @@ import ca.uhn.hl7v2.model.v25.message.ADT_A01
 import ca.uhn.hl7v2.model.v25.segment.PID
 import ca.uhn.hl7v2.model.v25.segment.PV1
 
-// Cliente para enviar mensajes MLLP al server
-import MLLPClient
 import HL7Message
 
 class ADTMessage extends HL7Message {
@@ -106,16 +104,5 @@ class ADTMessage extends HL7Message {
         
         // Registro la fecha y hora del ingreso
         patientVisit.getAdmitDateTime().getTime().setValue("20181116081500")
-    }
-
-    def sendMessage() {
-        String encodedMessage = this.er7Encode()
-        
-        // Normalize de Groovy permite mostrar los <CR> (fin de segmento) que es el enter de Linux, como <CR><LF> que es el enter de Windows.
-        // Sin esto, se verían todosadt, admitDateTime los segmentos en la misma línea cuando trabajamos en Windows.
-        println("\nEnviando al server el mensaje con el código: " + this.msg.getMSH().getMessageControlID())
-        //println encodedMessage.normalize()
-        
-        def cli = new MLLPClient(encodedMessage)
     }
 }

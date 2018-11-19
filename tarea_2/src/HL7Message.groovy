@@ -58,4 +58,8 @@ class HL7Message {
     def setMessageControlID(messageControlID) {
         this.msg.getMSH().getMessageControlID().setValue(messageControlID.toString())
     }
+
+    def getMessageControlID() {
+        return this.msg.getMSH().getMessageControlID().toString()
+    }
 }

@@ -1,4 +1,5 @@
 import ADTMessage
+import MLLPClient
 
 // Registro id0: Identificador único dentro del sistema público del GCBA
 def id0 = [:]
@@ -35,4 +36,10 @@ locationMap["bed"] = "301"
 // * con fecha y hora del ingreso = "20181116081500"
 
 adtMessage = new ADTMessage(patientMap, "20181115121200", "1000", locationMap, "20181116081500")
-adtMessage.sendMessage()
+
+String encodedMessage = adtMessage.er7Encode()
+
+println("\nEnviando al server el mensaje con el código: " + adtMessage.getMessageControlID())
+//println encodedMessage.normalize()
+        
+def MLLPClient cli = new MLLPClient(encodedMessage)
