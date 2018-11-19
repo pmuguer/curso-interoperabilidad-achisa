@@ -1,5 +1,6 @@
 import mllp
 import mllpbuffer
+import ca.uhn.hl7v2.model.v25.message.ADT_A01
 
 class MLLPServer {
     def MLLPServer(int port) {
@@ -20,6 +21,7 @@ class MLLPServer {
                 serverSocket.accept({ clientSocket ->
                     def buffer = new mllpbuffer()
                     def clientMessage = ""
+                    def hapiMessage = new ADT_A01()
                     // Passes the Socket's InputStream and OutputStream to the closure.
                     clientSocket.withStreams({ input, output ->
                         def reader = input.newReader()
@@ -31,6 +33,10 @@ class MLLPServer {
                             if (clientMessage != null) {
                                 println("\nMensaje recibido del cliente:")
                                 println(clientMessage.toString().normalize())
+                                hapiMessage.parse(clientMessage.toString())
+                                def fechaHora = hapiMessage.getPV1().getAdmitDateTime()
+                                println("fecha y hora " + fechaHora)
+                                println("Hola mundo")
                             }
                         }
                         //def inputString = reader.getText()

@@ -159,6 +159,9 @@ class ADTMessage {
     def sendMessage() {
         HapiContext context = new DefaultHapiContext();
         Parser parser = context.getPipeParser();
+        def estructura = this.adt.printStructure(false)
+        println "Estructura:"
+        println estructura
         String encodedMessage = parser.encode(this.adt);
         
         // Normalize de Groovy permite mostrar los <CR> (fin de segmento) que es el enter de Linux, como <CR><LF> que es el enter de Windows.
