@@ -8,9 +8,9 @@ import ca.uhn.hl7v2.model.AbstractMessage
 class HL7Message {
     AbstractMessage msg
 
-    def initMSH(msg) {
+    def initMSH() {
         // Inicialización del header, común para todos los mensajes
-        def mshSegment = msg.getMSH()
+        def mshSegment = this.msg.getMSH()
         mshSegment.getFieldSeparator().setValue("|")
         mshSegment.getEncodingCharacters().setValue("^~\\&")
         

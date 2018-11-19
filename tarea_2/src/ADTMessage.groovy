@@ -19,7 +19,7 @@ class ADTMessage extends HL7Message {
     // Clase que simplifica la creación de un mensaje ADT, usando HAPI
     // para la generación del mensaje y los segmentos que lo componen
 
-    ADT_A01 adt
+    //ADT_A01 adt
 
     // Constructor, recibe el paciente para el que se crearán los mensajes
     def ADTMessage(patient, dateTimeOfMessage, messageControlID, location, admitDateTime) {
@@ -31,18 +31,18 @@ class ADTMessage extends HL7Message {
         // admitDateTime: string en formato "YYYYMMDDHHMMSS"
 
         // Genero una nueva instancia de un mensaje ADT
-        this.adt = new ADT_A01()
+        this.msg = new ADT_A01()
        
         // Genero el MSH con los atributos que van en todos los mensajes 
-        this.initMSH(this.adt)
+        this.initMSH()
 
         // Inicializo el segmento PID con los datos del paciente
         this.initPIDSegment(patient)
 
         // Registro el timestamp del mensaje
-        this.adt.getMSH().getDateTimeOfMessage().getTime().setValue(dateTimeOfMessage)
+        this.msg.getMSH().getDateTimeOfMessage().getTime().setValue(dateTimeOfMessage)
         // Indico el id de control
-        this.adt.getMSH().getMessageControlID().setValue(messageControlID)
+        this.msg.getMSH().getMessageControlID().setValue(messageControlID)
 
         // Registro los datos del segmento PV1 (patient visit)
         this.setPV1Data(admitDateTime, location)
@@ -50,7 +50,7 @@ class ADTMessage extends HL7Message {
 
     def initPIDSegment(patient) {
         // Registro los datos del paciente en el segmento PID
-        PID pid = this.adt.getPID()
+        PID pid = this.msg.getPID()
         
         // Registro apellido, nombre, fecha de nacimiento y sexo
         pid.getPatientName(0).getFamilyName().getSurname().setValue(patient["surName"])
@@ -69,7 +69,7 @@ class ADTMessage extends HL7Message {
 
     def setPV1Data(admitDateTime, locationMap) {
         // Agrego los datos del segmento PV1, que forma parte del mensaje ADT
-        PV1 patientVisit = this.adt.getPV1()
+        PV1 patientVisit = this.msg.getPV1()
 
         // Los atributos opcionales significativos son:
         // Assigned Patient Location (PL)
@@ -120,11 +120,11 @@ class ADTMessage extends HL7Message {
     def sendMessage() {
         HapiContext context = new DefaultHapiContext();
         Parser parser = context.getPipeParser();
-        String encodedMessage = parser.encode(this.adt);
+        String encodedMessage = parser.encode(this.msg);
         
         // Normalize de Groovy permite mostrar los <CR> (fin de segmento) que es el enter de Linux, como <CR><LF> que es el enter de Windows.
         // Sin esto, se verían todosadt, admitDateTime los segmentos en la misma línea cuando trabajamos en Windows.
-        println("\nEnviando al server el mensaje con el código: " + this.adt.getMSH().getMessageControlID())
+        println("\nEnviando al server el mensaje con el código: " + this.msg.getMSH().getMessageControlID())
         //println encodedMessage.normalize()
         
         def cli = new MLLPClient(encodedMessage)

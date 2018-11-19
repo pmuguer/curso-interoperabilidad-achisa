@@ -4,11 +4,11 @@ import HL7Message
 
 class ACKMessage extends HL7Message {
     def ACKMessage() {
-        // Genero una nueva instancia de un mensaje ADT
+        // Genero una instancia de un mensaje ACK
         this.msg = new ACK()
        
         // Genero el MSH con los atributos que van en todos los mensajes 
-        this.initMSH(this.msg)
+        this.initMSH()
     }
 
     def setMessageControlID(messageControlID) {
