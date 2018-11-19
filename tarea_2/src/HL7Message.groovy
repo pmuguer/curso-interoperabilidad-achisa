@@ -16,6 +16,8 @@ class HL7Message {
         
         // Se indica que la versión de HL7 es 2.5
         mshSegment.getVersionID().getVersionID().setValue("2.5")
+        // Indico que se usa el charset Latin-1 (ISO 8859/1)
+        mshSegment.getCharacterSet(0).setValue("8859/1")
 
         // Indico el id de procesamiento (this field is used to decide whether to process the
         // message as defined in HL7 Application (level 7) Processing rules)
@@ -54,6 +56,11 @@ class HL7Message {
         // Registro el timestamp del mensaje
         // dateTimeOfMessage: string en formato "YYYYMMDDHHMMSS"
         this.msg.getMSH().getDateTimeOfMessage().getTime().setValue(dateTimeOfMessage)
+    }
+
+    def getDateTimeOfMessage() {
+        // Consulto el timestamp del mensaje
+        return this.msg.getMSH().getDateTimeOfMessage().getTime().toString()
     }
 
     def getMessageCode() {

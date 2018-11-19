@@ -125,13 +125,15 @@ class ADTMessage extends HL7Message {
 
         String messageControlID = this.getMessageControlID()
         String printableMessageControlID = "Valor del segmento MSH-10 (Message control ID): " + messageControlID + "\n"
+        String timeStamp = this.getDateTimeOfMessage()
+        String printableTimeStamp = "Fecha y hora del mensaje: " + timeStamp + "\n"
         String printablePatientData = "Datos del paciente: " + apellido + ", " + nombre +
             ", fecha nac: " + fechaNacimiento + ", sexo: " + sexo + "\n"
         String admitDateTime = patientVisit.getAdmitDateTime().toString()
         String printableAdmitDateTime = "Fecha y hora de ingreso: " + admitDateTime + "\n"
         String assignedPatientLocation = patientVisit.getAssignedPatientLocation().toString()
         String printableLocation = "Ubicación del paciente: " + assignedPatientLocation + "\n"
-        return printableMessageControlID + printablePatientData + printableAdmitDateTime + printableLocation
+        return printableMessageControlID + printableTimeStamp + printablePatientData + printableAdmitDateTime + printableLocation
     }
 
     def initSendingApplication(nameSpaceID, universalID) {
