@@ -10,8 +10,4 @@ class ACKMessage extends HL7Message {
         // Genero el MSH con los atributos que van en todos los mensajes 
         this.initMSH()
     }
-
-    def setMessageControlID(messageControlID) {
-        this.msg.getMSH().getMessageControlID().setValue(messageControlID.toString())
-    }
 }

@@ -15,8 +15,6 @@ class MLLPServer {
         try {
             def serverSocket = new ServerSocket(port)
             println("Server corriendo")
-            //println "Escuchando en el puerto: " +
-            //        server.getInetAddress() + ':' + server.getLocalPort()
 
             // Mantiene el servidor corriendo entre sucesivos clientes
             while (true) {
@@ -36,7 +34,6 @@ class MLLPServer {
                         def reader = input.newReader()
                         // Traverse through each byte of the specified stream.
                         input.eachByte { inputbyte ->
-                            //print(inputbyte)
                             buffer.add_to_buffer(inputbyte)
                             clientMessage = buffer.pop_message()
                             if (clientMessage != null) {
@@ -48,22 +45,13 @@ class MLLPServer {
                                 println("Contenido del mensaje:")
                                 this.printADTMessageFields(hapiMessage)
 
-                                //this.initMSH(hapiACKMessage)
-                                // Genero el ACK para el mensaje recibido
-
                                 ackMessage.setMessageControlID(messageControlID.toString())
-                                //hapiACKMessage.getMSH().getMessageControlID().setValue(messageControlID.toString())
-
-                                //HapiContext context = new DefaultHapiContext();
-                                //Parser parser = context.getPipeParser();
-                                //String ackEncodedMessage = parser.encode(hapiACKMessage);
                                 ackEncodedMessage = ackMessage.er7Encode()
 
                                 println("Respondiendo al cliente con ACK")
                                 // Agrego los separadores de MLLP
                                 def mllpACKMessage = mllp.create_mllp_message(ackEncodedMessage)
                                 // Respondo con el ACK al cliente
-
                                 output.write(mllpACKMessage)
                                 output.flush()
 

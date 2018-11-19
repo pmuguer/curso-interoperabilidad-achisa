@@ -54,4 +54,8 @@ class HL7Message {
         String er7EncodedMessage = parser.encode(this.msg);
         return er7EncodedMessage
     }
+
+    def setMessageControlID(messageControlID) {
+        this.msg.getMSH().getMessageControlID().setValue(messageControlID.toString())
+    }
 }
