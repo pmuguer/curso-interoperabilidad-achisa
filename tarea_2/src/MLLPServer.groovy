@@ -57,7 +57,7 @@ class MLLPServer {
                                 //HapiContext context = new DefaultHapiContext();
                                 //Parser parser = context.getPipeParser();
                                 //String ackEncodedMessage = parser.encode(hapiACKMessage);
-                                ackEncodedMessage = ackMessage.encodeER7()
+                                ackEncodedMessage = ackMessage.er7Encode()
 
                                 println("Respondiendo al cliente con ACK")
                                 // Agrego los separadores de MLLP
@@ -77,46 +77,6 @@ class MLLPServer {
             println("Hello")
         }
     }
-    //def initMSH(msg) {
-    //    // Inicialización del header, común para todos los mensajes
-    //    def mshSegment = msg.getMSH()
-    //    mshSegment.getFieldSeparator().setValue("|")
-    //    mshSegment.getEncodingCharacters().setValue("^~\\&")
-
-    //    // Se indica que la versión de HL7 es 2.5
-    //    mshSegment.getVersionID().getVersionID().setValue("2.5")
-    //    // Indico el tipo de mensaje (Cap 02, página 99)
-    //    mshSegment.getMessageType().getMessageCode().setValue("ADT")
-    //    // Indico el evento (Cap 02, página 101)
-    //    mshSegment.getMessageType().getTriggerEvent().setValue("A01")
-    //    // Indico la estructura del mensaje (Cap 02, página 102)
-    //    mshSegment.getMessageType().getMessageStructure().setValue("ADT_A01")
-
-    //    // Se registran los datos de la aplicación que genera el mensaje
-    //    mshSegment.getSendingApplication().getNamespaceID().setValue("1")
-    //    mshSegment.getSendingApplication().getUniversalID().setValue("1")
-
-    //    // Se registran los datos de la aplicación a la que está destinada el mensaje
-    //    mshSegment.getReceivingApplication().getNamespaceID().setValue("2")
-    //    mshSegment.getReceivingApplication().getUniversalID().setValue("2")
-
-    //    // Indico el id de procesamiento (this field is used to decide whether to process the
-    //    // message as defined in HL7 Application (level 7) Processing rules)
-    //    // Represents an HL7 PT (Processing Type) data type. This type consists
-    //    // of the following components:
-    //    //
-    //    //  * Processing ID (ID)
-    //    //  * Processing Mode (ID)
-
-    //    // Processing ID ("T" corresponde a "training")
-    //    // http://hl7-definition.caristix.com:9010/Default.aspx?version=HL7%20v2.5.1&table=0103
-    //    mshSegment.getProcessingID().getProcessingID().setValue("T")
-
-    //    // Processing Mode ("T" corresponde a "Current processing")
-    //    // http://hl7-definition.caristix.com:9010/Default.aspx?version=HL7%20v2.5.1&table=0207
-    //    mshSegment.getProcessingID().getProcessingMode().setValue("T")
-    //}
-
 
     def printADTMessageFields(ADT_A01 message) {
         // Dado un mensaje ADT, imprimir todos los campos que lo componen
