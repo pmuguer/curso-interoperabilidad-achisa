@@ -121,14 +121,6 @@ class ADTMessage extends HL7Message {
         String fechaNacimiento = pid.getDateTimeOfBirth().getTime().toString()
         String sexo = pid.getAdministrativeSex().toString()
        
-        //// Registro id0: Identificador único dentro del sistema público del GCBA
-        //pid.getPatientIdentifierList(0).getAssigningAuthority().getNamespaceID().setValue(patient["id0"]["assigningAuthority"])
-        //pid.getPatientIdentifierList(0).getIDNumber().setValue(patient["id0"]["idNumber"])
-        //// Registro id1: Identificador único para Argentina (DNI, asignado por RENAPER)
-        //pid.getPatientIdentifierList(1).getAssigningAuthority().getNamespaceID().setValue(patient["id1"]["assigningAuthority"])
-        //pid.getPatientIdentifierList(1).getIDNumber().setValue(patient["id1"]["idNumber"])
- 
-
         PV1 patientVisit = this.msg.getPV1()
 
         String messageControlID = this.getMessageControlID()
@@ -140,5 +132,19 @@ class ADTMessage extends HL7Message {
         String assignedPatientLocation = patientVisit.getAssignedPatientLocation().toString()
         String printableLocation = "Ubicación del paciente: " + assignedPatientLocation + "\n"
         return printableMessageControlID + printablePatientData + printableAdmitDateTime + printableLocation
+    }
+
+    def initSendingApplication(nameSpaceID, universalID) {
+        // Se registran los datos de la aplicación que genera el mensaje
+        def mshSegment = this.msg.getMSH()
+        mshSegment.getSendingApplication().getNamespaceID().setValue(nameSpaceID)
+        mshSegment.getSendingApplication().getUniversalID().setValue(universalID)
+    }
+
+    def initReceivingApplication(nameSpaceID, universalID) {
+        // Se registran los datos de la aplicación a la que está destinada el mensaje
+        def mshSegment = this.msg.getMSH()
+        mshSegment.getReceivingApplication().getNamespaceID().setValue(nameSpaceID)
+        mshSegment.getReceivingApplication().getUniversalID().setValue(universalID)
     }
 }

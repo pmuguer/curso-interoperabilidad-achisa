@@ -2,11 +2,6 @@ import mllp
 import mllpbuffer
 import ca.uhn.hl7v2.model.v25.message.ADT_A01
 
-// Se importan las clases necesarias para generar los mensajes
-import ca.uhn.hl7v2.DefaultHapiContext
-import ca.uhn.hl7v2.HapiContext
-import ca.uhn.hl7v2.parser.Parser
-
 import ACKMessage
 import ADTMessage
 
@@ -85,11 +80,4 @@ class MLLPServer {
             println("Hello")
         }
     }
-
-    //def printADTMessageFields(ADT_A01 message) {
-    //    // Dado un mensaje ADT, imprimir todos los campos que lo componen
-    //    println message.getMSH().getMessageControlID()
-    //    println message.getPID().getPatientName()
-    //    println message.getPV1().getAdmitDateTime()
-    //}
 }

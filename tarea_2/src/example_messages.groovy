@@ -38,6 +38,8 @@ locationMap["bed"] = "301"
 
 adtMessage = new ADTMessage()
 adtMessage.setMessageControlID("1000")
+adtMessage.initSendingApplication("1", "1")
+adtMessage.initReceivingApplication("2", "2")
 adtMessage.setDateTimeOfMessage("20181115121200")
 adtMessage.initPIDSegment(patientMap)
 adtMessage.initPV1Segment("20181116081500", locationMap)
