@@ -1,3 +1,4 @@
+import java.net.SocketException
 import mllp
 import mllpbuffer
 import ca.uhn.hl7v2.model.v25.message.ADT_A01
@@ -8,18 +9,18 @@ import ADTMessage
 class MLLPServer {
     def MLLPServer(int port) {
         // Server que recibe y procesa mensajes utilizando el protocolo MLLP
-        try {
-            def serverSocket = new ServerSocket(port)
-            println("Server corriendo")
+        def serverSocket = new ServerSocket(port)
+        println("Server corriendo")
 
-            // Mantiene el servidor corriendo entre sucesivos clientes
-            while (true) {
-                // Espera hasta que un cliente solicite una conexión
-                // Accepts a connection and passes the resulting Socket to the closure
-                // which runs in a new Thread.
-                //
-                // En este caso, el "resulting Socket" es clientSocket
-                serverSocket.accept({ clientSocket ->
+        // Mantiene el servidor corriendo entre sucesivos clientes
+        while (true) {
+            // Espera hasta que un cliente solicite una conexión
+            // Accepts a connection and passes the resulting Socket to the closure
+            // which runs in a new Thread.
+            //
+            // En este caso, el "resulting Socket" es clientSocket
+            serverSocket.accept({ clientSocket ->
+                try {
                     def buffer = new mllpbuffer()
                     def clientMessage = ""
                     //def hapiMessage = new ADT_A01()
@@ -74,10 +75,10 @@ class MLLPServer {
                         }
                     })
                     println("\nSaliendo del thread")
-                })
-            }
-        } finally {
-            println("Hello")
+                } catch (SocketException ex) {
+                    println "Conexión cerrada por el cliente"
+                }
+           })
         }
     }
 }

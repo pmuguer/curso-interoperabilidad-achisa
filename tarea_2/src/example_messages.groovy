@@ -36,16 +36,40 @@ locationMap["bed"] = "301"
 // * con ubicación del ingreso locationMap
 // * con fecha y hora del ingreso = "20181116081500"
 
-adtMessage = new ADTMessage()
-adtMessage.setMessageControlID("1000")
-adtMessage.initSendingApplication("1", "1")
-adtMessage.initReceivingApplication("2", "2")
-adtMessage.setDateTimeOfMessage("20181115121200")
-adtMessage.initPIDSegment(patientMap)
-adtMessage.initPV1Segment("20181116081500", locationMap)
-String encodedMessage = adtMessage.er7Encode()
+adtMessage1 = new ADTMessage()
+def controlID1 = "1001"
+adtMessage1.setMessageControlID(controlID1)
+adtMessage1.initSendingApplication("1", "1")
+adtMessage1.initReceivingApplication("2", "2")
+adtMessage1.setDateTimeOfMessage("20181115121200")
+adtMessage1.initPIDSegment(patientMap)
+adtMessage1.initPV1Segment("20181116081500", locationMap)
+String encodedMessage1 = adtMessage1.er7Encode()
 
-println("\nEnviando mensaje ADT; valor del segmento MSH-10 (Message Control ID) = " + adtMessage.getMessageControlID())
+adtMessage2 = new ADTMessage()
+def controlID2 = "1002"
+adtMessage2.setMessageControlID(controlID2)
+adtMessage2.initSendingApplication("1", "1")
+adtMessage2.initReceivingApplication("2", "2")
+adtMessage2.setDateTimeOfMessage("20181115121200")
+adtMessage2.initPIDSegment(patientMap)
+adtMessage2.initPV1Segment("20181116081500", locationMap)
+String encodedMessage2 = adtMessage2.er7Encode()
+
+adtMessage3 = new ADTMessage()
+def controlID3 = "1003"
+adtMessage3.setMessageControlID(controlID3)
+adtMessage3.initSendingApplication("1", "1")
+adtMessage3.initReceivingApplication("2", "2")
+adtMessage3.setDateTimeOfMessage("20181115121200")
+adtMessage3.initPIDSegment(patientMap)
+adtMessage3.initPV1Segment("20181116081500", locationMap)
+String encodedMessage3 = adtMessage3.er7Encode()
+
+println("\nEnviando mensaje ADT; valor del segmento MSH-10 (Message Control ID) = " + adtMessage1.getMessageControlID())
 //println encodedMessage.normalize()
-        
-def MLLPClient cli = new MLLPClient(config.SERVER_HOST, config.SERVER_PORT, encodedMessage)
+def MLLPClient cli1 = new MLLPClient(config.SERVER_HOST, config.SERVER_PORT, controlID1, encodedMessage1)
+println("\nEnviando mensaje ADT; valor del segmento MSH-10 (Message Control ID) = " + adtMessage2.getMessageControlID())
+def MLLPClient cli2 = new MLLPClient(config.SERVER_HOST, config.SERVER_PORT, controlID2, encodedMessage2)
+println("\nEnviando mensaje ADT; valor del segmento MSH-10 (Message Control ID) = " + adtMessage3.getMessageControlID())
+def MLLPClient cli3 = new MLLPClient(config.SERVER_HOST, config.SERVER_PORT, controlID3, encodedMessage3)
