@@ -29,6 +29,8 @@ class MLLPServer {
                     def hapiMessage = new ADT_A01()
                     def ackMessage = new ACKMessage()
                     def ackEncodedMessage = ""
+                    def String messageCode = ""
+                    def String messageEvent = ""
                     // Passes the Socket's InputStream and OutputStream to the closure.
                     clientSocket.withStreams({ input, output ->
                         def reader = input.newReader()
@@ -43,6 +45,12 @@ class MLLPServer {
                                 def messageControlID = hapiMessage.getMSH().getMessageControlID()
                                 println("Message control ID: " + messageControlID)
                                 println("Contenido del mensaje:")
+                                messageCode = hapiMessage.getMSH().getMessageType().getMessageCode().toString()
+                                messageEvent = hapiMessage.getMSH().getMessageType().getTriggerEvent().toString()
+                                // Se esperan mensajes de tipo "ADT^A01"
+                                if ((messageCode != "ADT") || (messageEvent != "A01")) {
+                                    println("ERROR: el mensaje recibido no es de tipo ADT^A01")
+                                }
                                 this.printADTMessageFields(hapiMessage)
 
                                 ackMessage.setMessageControlID(messageControlID.toString())
