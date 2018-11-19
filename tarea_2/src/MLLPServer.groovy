@@ -8,6 +8,7 @@ import ca.uhn.hl7v2.HapiContext
 import ca.uhn.hl7v2.parser.Parser
 
 import ACKMessage
+import ADTMessage
 
 class MLLPServer {
     def MLLPServer(int port) {
@@ -26,7 +27,10 @@ class MLLPServer {
                 serverSocket.accept({ clientSocket ->
                     def buffer = new mllpbuffer()
                     def clientMessage = ""
-                    def hapiMessage = new ADT_A01()
+                    //def hapiMessage = new ADT_A01()
+                    // Instancia que se va a inicializar con los datos
+                    // recibidos del cliente
+                    def clientADTMessage = new ADTMessage()
                     def ackMessage = new ACKMessage()
                     def ackEncodedMessage = ""
                     def String messageCode = ""
@@ -41,17 +45,21 @@ class MLLPServer {
                             if (clientMessage != null) {
                                 println("\nMensaje recibido del cliente:")
                                 //println(clientMessage.toString().normalize())
-                                hapiMessage.parse(clientMessage.toString())
-                                def messageControlID = hapiMessage.getMSH().getMessageControlID()
+                                //hapiMessage.parse(clientMessage.toString())
+                                clientADTMessage.initFromER7Message(clientMessage.toString())
+                                //def messageControlID = hapiMessage.getMSH().getMessageControlID()
+                                def messageControlID = clientADTMessage.getMessageControlID()
                                 println("Message control ID: " + messageControlID)
-                                println("Contenido del mensaje:")
-                                messageCode = hapiMessage.getMSH().getMessageType().getMessageCode().toString()
-                                messageEvent = hapiMessage.getMSH().getMessageType().getTriggerEvent().toString()
+                                //println("Contenido del mensaje:")
+                                //messageCode = hapiMessage.getMSH().getMessageType().getMessageCode().toString()
+                                //messageEvent = hapiMessage.getMSH().getMessageType().getTriggerEvent().toString()
+                                messageCode = clientADTMessage.getMessageCode()
+                                messageEvent = clientADTMessage.getMessageEvent()
                                 // Se esperan mensajes de tipo "ADT^A01"
                                 if ((messageCode != "ADT") || (messageEvent != "A01")) {
                                     println("ERROR: el mensaje recibido no es de tipo ADT^A01")
                                 }
-                                this.printADTMessageFields(hapiMessage)
+                                //this.printADTMessageFields(hapiMessage)
 
                                 ackMessage.setMessageControlID(messageControlID.toString())
                                 ackEncodedMessage = ackMessage.er7Encode()
@@ -74,10 +82,10 @@ class MLLPServer {
         }
     }
 
-    def printADTMessageFields(ADT_A01 message) {
-        // Dado un mensaje ADT, imprimir todos los campos que lo componen
-        println message.getMSH().getMessageControlID()
-        println message.getPID().getPatientName()
-        println message.getPV1().getAdmitDateTime()
-    }
+    //def printADTMessageFields(ADT_A01 message) {
+    //    // Dado un mensaje ADT, imprimir todos los campos que lo componen
+    //    println message.getMSH().getMessageControlID()
+    //    println message.getPID().getPatientName()
+    //    println message.getPV1().getAdmitDateTime()
+    //}
 }

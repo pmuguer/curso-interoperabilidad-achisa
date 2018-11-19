@@ -11,23 +11,16 @@ class ADTMessage extends HL7Message {
     // para la generación del mensaje y los segmentos que lo componen
 
     // Constructor, recibe el paciente para el que se crearán los mensajes
-    def ADTMessage(patient, admitDateTime, location) {
-        // Genera un nuevo mensaje ADT, con los siguientes datos:
-        // patient: mapa con los datos del paciente
-        // admitDateTime: string en formato "YYYYMMDDHHMMSS"
-        // location: mapa con los datos de la ubicación de la internación
-
+    def ADTMessage() {
+        // Genera un nuevo mensaje ADT
         // Genero una nueva instancia de un mensaje ADT
         this.msg = new ADT_A01()
         // Genero el MSH con los atributos que van en todos los mensajes 
         this.initMSH()
-        // Inicializo el segmento PID con los datos del paciente
-        this.initPIDSegment(patient)
-        // Registro los datos del segmento PV1 (patient visit)
-        this.setPV1Data(admitDateTime, location)
     }
 
     def initPIDSegment(patient) {
+        // patient: mapa con los datos del paciente
         // Registro los datos del paciente en el segmento PID
         PID pid = this.msg.getPID()
         
@@ -46,8 +39,11 @@ class ADTMessage extends HL7Message {
         pid.getPatientIdentifierList(1).getIDNumber().setValue(patient["id1"]["idNumber"])
     }
 
-    def setPV1Data(admitDateTime, locationMap) {
+    def initPV1Segment(admitDateTime, locationMap) {
         // Agrego los datos del segmento PV1, que forma parte del mensaje ADT
+        // admitDateTime: string en formato "YYYYMMDDHHMMSS"
+        // location: mapa con los datos de la ubicación de la internación
+
         PV1 patientVisit = this.msg.getPV1()
 
         // Los atributos opcionales significativos son:
@@ -94,5 +90,10 @@ class ADTMessage extends HL7Message {
         
         // Registro la fecha y hora del ingreso
         patientVisit.getAdmitDateTime().getTime().setValue(admitDateTime)
+    }
+
+    def initFromER7Message(message) {
+        // Inicializar la instancia a partir de un mensaje en formato ER7
+        this.msg.parse(message)
     }
 }

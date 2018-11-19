@@ -36,10 +36,11 @@ locationMap["bed"] = "301"
 // * con ubicación del ingreso locationMap
 // * con fecha y hora del ingreso = "20181116081500"
 
-adtMessage = new ADTMessage(patientMap, "20181116081500", locationMap)
+adtMessage = new ADTMessage()
 adtMessage.setMessageControlID("1000")
 adtMessage.setDateTimeOfMessage("20181115121200")
-
+adtMessage.initPIDSegment(patientMap)
+adtMessage.initPV1Segment("20181116081500", locationMap)
 String encodedMessage = adtMessage.er7Encode()
 
 println("\nEnviando mensaje ADT; valor del segmento MSH-10 (Message Control ID) = " + adtMessage.getMessageControlID())

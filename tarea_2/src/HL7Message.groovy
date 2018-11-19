@@ -69,4 +69,12 @@ class HL7Message {
         // dateTimeOfMessage: string en formato "YYYYMMDDHHMMSS"
         this.msg.getMSH().getDateTimeOfMessage().getTime().setValue(dateTimeOfMessage)
     }
+
+    def getMessageCode() {
+        return this.msg.getMSH().getMessageType().getMessageCode().toString()
+    }
+
+    def getMessageEvent() {
+        return this.msg.getMSH().getMessageType().getTriggerEvent().toString()
+    }
 }
