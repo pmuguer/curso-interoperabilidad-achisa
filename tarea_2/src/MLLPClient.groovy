@@ -3,13 +3,13 @@ import mllp
 import mllpbuffer
 
 class MLLPClient {
-    def MLLPClient(message) {
+    def MLLPClient(String serverIP, int serverPort, message) {
         def buffer = new mllpbuffer()
         def mllpMessage = mllp.create_mllp_message(message)
         def hapiMessage = new ACK()
         def String serverACK
 
-        def socket = new Socket("localhost", 8181);
+        def socket = new Socket(InetAddress.getByName(serverIP), serverPort);
         socket.withStreams { input, output ->
             output.write(mllpMessage)
             output.flush()

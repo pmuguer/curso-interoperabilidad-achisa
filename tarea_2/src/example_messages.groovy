@@ -1,3 +1,4 @@
+import config
 import ADTMessage
 import MLLPClient
 
@@ -44,4 +45,4 @@ String encodedMessage = adtMessage.er7Encode()
 println("\nEnviando al server el mensaje con el código: " + adtMessage.getMessageControlID())
 //println encodedMessage.normalize()
         
-def MLLPClient cli = new MLLPClient(encodedMessage)
+def MLLPClient cli = new MLLPClient(config.SERVER_HOST, config.SERVER_PORT, encodedMessage)

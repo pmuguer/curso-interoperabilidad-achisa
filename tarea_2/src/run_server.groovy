@@ -1,5 +1,6 @@
+import config
 import mllp
 import mllpbuffer
 import MLLPServer
 
-def a = new MLLPServer(8181)
+def srv = new MLLPServer(config.SERVER_PORT)
