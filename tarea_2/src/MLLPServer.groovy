@@ -57,13 +57,15 @@ class MLLPServer {
                                 //messageEvent = hapiMessage.getMSH().getMessageType().getTriggerEvent().toString()
                                 messageCode = clientADTMessage.getMessageCode()
                                 messageEvent = clientADTMessage.getMessageEvent()
+                                ackMessage.setMessageControlID(messageControlID.toString())
                                 // Se esperan mensajes de tipo "ADT^A01"
                                 if ((messageCode != "ADT") || (messageEvent != "A01")) {
                                     println("ERROR: el mensaje recibido no es de tipo ADT^A01")
+                                    // Indico que no hubo error ("AE" = Error)
+                                    ackMessage.setAcknowledgementCode("AE")
                                 }
-                                //this.printADTMessageFields(hapiMessage)
-
-                                ackMessage.setMessageControlID(messageControlID.toString())
+                                // Indico que no hubo error ("AA" = Accepted)
+                                ackMessage.setAcknowledgementCode("AA")
                                 ackEncodedMessage = ackMessage.er7Encode()
 
                                 println("Respondiendo al cliente con ACK")

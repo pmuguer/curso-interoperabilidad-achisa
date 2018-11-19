@@ -20,7 +20,8 @@ class MLLPClient {
                 if (serverACK != null) {
                     println("\nACK recibido del server:")
                     hapiMessage.parse(serverACK.toString())
-                    println(hapiMessage.getMSH().getMessageControlID())
+                    //println(hapiMessage.getMSH().getMessageControlID())
+                    println(hapiMessage.toString().normalize())
                 }
             }
         }

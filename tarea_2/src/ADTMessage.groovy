@@ -19,6 +19,20 @@ class ADTMessage extends HL7Message {
         this.initMSH()
     }
 
+    def initMSH() {
+        // Inicialización del header; primero uso la inicialización de la clase
+        // base (HL7Message)        
+        super.initMSH()
+        // A continuación agrego los campos específicos para mensajes ADT
+        def mshSegment = this.msg.getMSH()
+        // Indico el tipo de mensaje (Cap 02, página 99)
+        mshSegment.getMessageType().getMessageCode().setValue("ADT")
+        // Indico el evento (Cap 02, página 101)
+        mshSegment.getMessageType().getTriggerEvent().setValue("A01")
+        // Indico la estructura del mensaje (Cap 02, página 102)
+        mshSegment.getMessageType().getMessageStructure().setValue("ADT_A01")
+    }
+
     def initPIDSegment(patient) {
         // patient: mapa con los datos del paciente
         // Registro los datos del paciente en el segmento PID
@@ -116,12 +130,15 @@ class ADTMessage extends HL7Message {
  
 
         PV1 patientVisit = this.msg.getPV1()
+
+        String messageControlID = this.getMessageControlID()
+        String printableMessageControlID = "Valor del segmento MSH-10 (Message control ID): " + messageControlID + "\n"
         String printablePatientData = "Datos del paciente: " + apellido + ", " + nombre +
             ", fecha nac: " + fechaNacimiento + ", sexo: " + sexo + "\n"
         String admitDateTime = patientVisit.getAdmitDateTime().toString()
         String printableAdmitDateTime = "Fecha y hora de ingreso: " + admitDateTime + "\n"
         String assignedPatientLocation = patientVisit.getAssignedPatientLocation().toString()
         String printableLocation = "Ubicación del paciente: " + assignedPatientLocation + "\n"
-        return printablePatientData + printableAdmitDateTime + printableLocation
+        return printableMessageControlID + printablePatientData + printableAdmitDateTime + printableLocation
     }
 }

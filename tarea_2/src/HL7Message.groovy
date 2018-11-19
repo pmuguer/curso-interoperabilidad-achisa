@@ -16,12 +16,6 @@ class HL7Message {
         
         // Se indica que la versión de HL7 es 2.5
         mshSegment.getVersionID().getVersionID().setValue("2.5")
-        // Indico el tipo de mensaje (Cap 02, página 99)
-        mshSegment.getMessageType().getMessageCode().setValue("ADT")
-        // Indico el evento (Cap 02, página 101)
-        mshSegment.getMessageType().getTriggerEvent().setValue("A01")
-        // Indico la estructura del mensaje (Cap 02, página 102)
-        mshSegment.getMessageType().getMessageStructure().setValue("ADT_A01")
 
         // Se registran los datos de la aplicación que genera el mensaje
         mshSegment.getSendingApplication().getNamespaceID().setValue("1")
