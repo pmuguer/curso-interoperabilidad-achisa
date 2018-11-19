@@ -7,16 +7,12 @@ public class mllpbuffer {
     // llama a pop_message, si en el buffer hay un mensaje que cumple
     // con los criterios de validación, se devuelve el mensaje.
     public List buffer = [];
+
     public add_to_buffer(int value) {
         // Agregar un byte al buffer
         this.buffer.add(value)
     }
-    public add_string_to_buffer(String values) {
-        def i = 0;
-        for (i = 0; i < values.length(); i++) {
-            this.buffer.add(values[i])
-        }
-    }
+
     public pop_message() {
         // Si existe un mensaje, devolverlo y quitar los
         // datos correspondientes del buffer

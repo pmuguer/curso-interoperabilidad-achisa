@@ -66,16 +66,6 @@ locationMap3["building"] = "Edificio Principal"
 locationMap3["floor"] = "5o piso"
 locationMap3["bed"] = "507"
 
-
-
-
-// Creo un mensaje ADT con las siguientes características:
-// * para el paciente patient
-// * con timestamp del mensaje = "20181115121200"
-// * con id del mensaje = 1000
-// * con ubicación del ingreso locationMap
-// * con fecha y hora del ingreso = "20181116081500"
-
 adtMessage1 = new ADTMessage()
 def controlID1 = "1001"
 adtMessage1.setMessageControlID(controlID1)
