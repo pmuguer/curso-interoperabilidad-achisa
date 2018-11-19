@@ -1,8 +1,3 @@
-// Se importan las clases necesarias para generar los mensajes
-import ca.uhn.hl7v2.DefaultHapiContext
-import ca.uhn.hl7v2.HapiContext
-import ca.uhn.hl7v2.parser.Parser
-
 // Se importan las clases requeridas para mensajes de tipo ADT
 // Al importar tener en cuenta la version, aquí es 2.5
 import ca.uhn.hl7v2.model.v25.message.ADT_A01
@@ -10,6 +5,11 @@ import ca.uhn.hl7v2.model.v25.segment.MSH
 import ca.uhn.hl7v2.model.v25.segment.PID
 import ca.uhn.hl7v2.model.v25.segment.PV1
 import ca.uhn.hl7v2.model.v25.datatype.ST
+
+// Se importan las clases necesarias para generar los mensajes
+import ca.uhn.hl7v2.DefaultHapiContext
+import ca.uhn.hl7v2.HapiContext
+import ca.uhn.hl7v2.parser.Parser
 
 // Cliente para enviar mensajes MLLP al server
 import MLLPClient
@@ -159,15 +159,12 @@ class ADTMessage {
     def sendMessage() {
         HapiContext context = new DefaultHapiContext();
         Parser parser = context.getPipeParser();
-        def estructura = this.adt.printStructure(false)
-        println "Estructura:"
-        println estructura
         String encodedMessage = parser.encode(this.adt);
         
         // Normalize de Groovy permite mostrar los <CR> (fin de segmento) que es el enter de Linux, como <CR><LF> que es el enter de Windows.
         // Sin esto, se verían todosadt, admitDateTime los segmentos en la misma línea cuando trabajamos en Windows.
-        println("\nEnviando al server el mensaje:")
-        println encodedMessage.normalize()
+        println("\nEnviando al server el mensaje con el código: " + this.adt.getMSH().getMessageControlID())
+        //println encodedMessage.normalize()
         
         def cli = new MLLPClient(encodedMessage)
     }
