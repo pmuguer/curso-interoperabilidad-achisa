@@ -11,10 +11,9 @@ class ADTMessage extends HL7Message {
     // para la generación del mensaje y los segmentos que lo componen
 
     // Constructor, recibe el paciente para el que se crearán los mensajes
-    def ADTMessage(patient, dateTimeOfMessage, location, admitDateTime) {
+    def ADTMessage(patient, location, admitDateTime) {
         // Genera un nuevo mensaje ADT, con los siguientes datos:
         // patient: mapa con los datos del paciente
-        // dateTimeOfMessage: string en formato "YYYYMMDDHHMMSS"
         // location: mapa con los datos de la ubicación de la internación
         // admitDateTime: string en formato "YYYYMMDDHHMMSS"
 
@@ -26,9 +25,6 @@ class ADTMessage extends HL7Message {
 
         // Inicializo el segmento PID con los datos del paciente
         this.initPIDSegment(patient)
-
-        // Registro el timestamp del mensaje
-        this.msg.getMSH().getDateTimeOfMessage().getTime().setValue(dateTimeOfMessage)
 
         // Registro los datos del segmento PV1 (patient visit)
         this.setPV1Data(admitDateTime, location)

@@ -63,4 +63,10 @@ class HL7Message {
     def getMessageControlID() {
         return this.msg.getMSH().getMessageControlID().toString()
     }
+
+    def setDateTimeOfMessage(dateTimeOfMessage) {
+        // Registro el timestamp del mensaje
+        // dateTimeOfMessage: string en formato "YYYYMMDDHHMMSS"
+        this.msg.getMSH().getDateTimeOfMessage().getTime().setValue(dateTimeOfMessage)
+    }
 }

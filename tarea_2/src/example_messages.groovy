@@ -35,9 +35,9 @@ locationMap["bed"] = "301"
 // * con ubicación del ingreso locationMap
 // * con fecha y hora del ingreso = "20181116081500"
 
-adtMessage = new ADTMessage(patientMap, "20181115121200", locationMap, "20181116081500")
+adtMessage = new ADTMessage(patientMap, locationMap, "20181116081500")
 adtMessage.setMessageControlID("1000")
-
+adtMessage.setDateTimeOfMessage("20181115121200")
 
 String encodedMessage = adtMessage.er7Encode()
 
