@@ -1,10 +1,8 @@
 // Se importan las clases requeridas para mensajes de tipo ADT
 // Al importar tener en cuenta la version, aquí es 2.5
 import ca.uhn.hl7v2.model.v25.message.ADT_A01
-import ca.uhn.hl7v2.model.v25.segment.MSH
 import ca.uhn.hl7v2.model.v25.segment.PID
 import ca.uhn.hl7v2.model.v25.segment.PV1
-import ca.uhn.hl7v2.model.v25.datatype.ST
 
 // Cliente para enviar mensajes MLLP al server
 import MLLPClient
@@ -13,8 +11,6 @@ import HL7Message
 class ADTMessage extends HL7Message {
     // Clase que simplifica la creación de un mensaje ADT, usando HAPI
     // para la generación del mensaje y los segmentos que lo componen
-
-    //ADT_A01 adt
 
     // Constructor, recibe el paciente para el que se crearán los mensajes
     def ADTMessage(patient, dateTimeOfMessage, messageControlID, location, admitDateTime) {
