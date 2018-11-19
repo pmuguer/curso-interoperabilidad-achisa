@@ -96,4 +96,32 @@ class ADTMessage extends HL7Message {
         // Inicializar la instancia a partir de un mensaje en formato ER7
         this.msg.parse(message)
     }
+
+    def getPrintableFormat() {
+        // Devolver un String que muestre los valores de los campos más significativos
+        PID pid = this.msg.getPID()
+
+        String apellido = pid.getPatientName(0).getFamilyName().getSurname().toString()
+        String nombre = pid.getPatientName(0).getGivenName().toString()
+        // Fecha de nacimiento: 21/08/1921
+        String fechaNacimiento = pid.getDateTimeOfBirth().getTime().toString()
+        String sexo = pid.getAdministrativeSex().toString()
+       
+        //// Registro id0: Identificador único dentro del sistema público del GCBA
+        //pid.getPatientIdentifierList(0).getAssigningAuthority().getNamespaceID().setValue(patient["id0"]["assigningAuthority"])
+        //pid.getPatientIdentifierList(0).getIDNumber().setValue(patient["id0"]["idNumber"])
+        //// Registro id1: Identificador único para Argentina (DNI, asignado por RENAPER)
+        //pid.getPatientIdentifierList(1).getAssigningAuthority().getNamespaceID().setValue(patient["id1"]["assigningAuthority"])
+        //pid.getPatientIdentifierList(1).getIDNumber().setValue(patient["id1"]["idNumber"])
+ 
+
+        PV1 patientVisit = this.msg.getPV1()
+        String printablePatientData = "Datos del paciente: " + apellido + ", " + nombre +
+            ", fecha nac: " + fechaNacimiento + ", sexo: " + sexo + "\n"
+        String admitDateTime = patientVisit.getAdmitDateTime().toString()
+        String printableAdmitDateTime = "Fecha y hora de ingreso: " + admitDateTime + "\n"
+        String assignedPatientLocation = patientVisit.getAssignedPatientLocation().toString()
+        String printableLocation = "Ubicación del paciente: " + assignedPatientLocation + "\n"
+        return printablePatientData + printableAdmitDateTime + printableLocation
+    }
 }

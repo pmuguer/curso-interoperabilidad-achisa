@@ -43,10 +43,12 @@ class MLLPServer {
                             buffer.add_to_buffer(inputbyte)
                             clientMessage = buffer.pop_message()
                             if (clientMessage != null) {
-                                println("\nMensaje recibido del cliente:")
                                 //println(clientMessage.toString().normalize())
                                 //hapiMessage.parse(clientMessage.toString())
                                 clientADTMessage.initFromER7Message(clientMessage.toString())
+
+                                println("\nMensaje recibido del cliente:")
+                                println(clientADTMessage.getPrintableFormat())
                                 //def messageControlID = hapiMessage.getMSH().getMessageControlID()
                                 def messageControlID = clientADTMessage.getMessageControlID()
                                 println("Message control ID: " + messageControlID)
