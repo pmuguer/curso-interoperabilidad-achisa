@@ -56,6 +56,7 @@ class HL7Message {
     }
 
     def setMessageControlID(messageControlID) {
+        // messageControlID: string con id que identificará el mensaje
         this.msg.getMSH().getMessageControlID().setValue(messageControlID.toString())
     }
 
