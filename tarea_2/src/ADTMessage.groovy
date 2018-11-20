@@ -123,6 +123,14 @@ class ADTMessage extends HL7Message {
        
         PV1 patientVisit = this.msg.getPV1()
 
+
+        // Registro id0: Identificador único dentro del sistema público del GCBA
+
+        String pid1_aa = pid.getPatientIdentifierList(0).getAssigningAuthority().getNamespaceID()
+        String pid1_id = pid.getPatientIdentifierList(0).getIDNumber()
+        String pid2_aa = pid.getPatientIdentifierList(1).getAssigningAuthority().getNamespaceID()
+        String pid2_id = pid.getPatientIdentifierList(1).getIDNumber()
+
         String messageControlID = this.getMessageControlID()
         String printableMessageControlID = "Valor del segmento MSH-10 (Message control ID): " + messageControlID + "\n"
         String timeStamp = this.getDateTimeOfMessage()
@@ -133,7 +141,10 @@ class ADTMessage extends HL7Message {
         String printableAdmitDateTime = "Fecha y hora de ingreso: " + admitDateTime + "\n"
         String assignedPatientLocation = patientVisit.getAssignedPatientLocation().toString()
         String printableLocation = "Ubicación del paciente: " + assignedPatientLocation + "\n"
-        return printableMessageControlID + printableTimeStamp + printablePatientData + printableAdmitDateTime + printableLocation
+        String printableID1 = "Doc1; autoridad emisora: " + pid1_aa + "; nro documento: " + pid1_id + "\n"
+        String printableID2 = "Doc2; autoridad emisora: " + pid2_aa + "; nro documento: " + pid2_id + "\n"
+        return printableMessageControlID + printableTimeStamp + printablePatientData +
+               printableID1 + printableID2 + printableAdmitDateTime + printableLocation
     }
 
     def initSendingApplication(nameSpaceID, universalID) {

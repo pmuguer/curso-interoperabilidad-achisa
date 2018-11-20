@@ -71,7 +71,6 @@ class MLLPServer {
                                 // Respondo con el ACK al cliente
                                 output.write(mllpACKMessage)
                                 output.flush()
-
                             }
                         }
                     })
