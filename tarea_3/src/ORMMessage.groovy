@@ -7,8 +7,7 @@ import ca.uhn.hl7v2.model.v25.segment.ORC
 import ca.uhn.hl7v2.model.v25.group.ORM_O01_ORDER_DETAIL
 import ca.uhn.hl7v2.model.v25.group.ORM_O01_OBSERVATION
 import ca.uhn.hl7v2.model.v25.segment.OBR
-
-import HL7Message
+import ca.uhn.hl7v2.model.v25.segment.PV1
 
 class ORMMessage extends HL7Message {
     // Clase que simplifica la creación de un mensaje ORM, usando HAPI
@@ -56,6 +55,26 @@ class ORMMessage extends HL7Message {
         pid.getPatientIdentifierList(1).getAssigningAuthority().getNamespaceID().setValue(patient["id1"]["assigningAuthority"])
         pid.getPatientIdentifierList(1).getIDNumber().setValue(patient["id1"]["idNumber"])
     }
+
+    def initPV1Segment(admitDateTime, locationMap) {
+        // Agrego los datos del segmento PV1
+        // admitDateTime: string en formato "YYYYMMDDHHMMSS"
+        // location: mapa con los datos de la ubicación
+
+        PV1 patientVisit = this.msg.getPATIENT().getPATIENT_VISIT().getPV1()
+
+        // Ver tabla 3.4.3.2. "O" corresponde a "Outpatient" (consultorios)
+        patientVisit.getPatientClass().setValue("O")
+
+        patientVisit.getAssignedPatientLocation().getPointOfCare().setValue(locationMap["pointOfCare"])
+        patientVisit.getAssignedPatientLocation().getFacility().getNamespaceID().setValue(locationMap["facilityNameSpaceID"])
+        patientVisit.getAssignedPatientLocation().getFacility().getUniversalID().setValue(locationMap["facilityUniversalID"])
+        patientVisit.getAssignedPatientLocation().getBuilding().setValue(locationMap["building"])
+
+        // Registro la fecha y hora de la
+        patientVisit.getAdmitDateTime().getTime().setValue(admitDateTime)
+    }
+
 
     def setORCSegment(orderControl, placerOrderNumber, transactionDateTime) {
         //def ORM_O01_ORDER_DETAIL orderDetail = this.msg.getORDER().getORDER_DETAIL()

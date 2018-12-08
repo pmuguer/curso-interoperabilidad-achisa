@@ -38,24 +38,6 @@ class HL7Message {
         mshSegment.getProcessingID().getProcessingMode().setValue("T")
     }
 
-    def initPV1Segment(admitDateTime, locationMap) {
-        // Agrego los datos del segmento PV1
-        // admitDateTime: string en formato "YYYYMMDDHHMMSS"
-        // location: mapa con los datos de la ubicación
-
-        PV1 patientVisit = this.msg.getPV1()
-
-        // Ver tabla 3.4.3.2. "O" corresponde a "Outpatient" (consultorios)
-        patientVisit.getPatientClass().setValue("O")
-
-        patientVisit.getAssignedPatientLocation().getPointOfCare().setValue(locationMap["pointOfCare"])
-        patientVisit.getAssignedPatientLocation().getFacility().getNamespaceID().setValue(locationMap["facilityNameSpaceID"])
-        patientVisit.getAssignedPatientLocation().getFacility().getUniversalID().setValue(locationMap["facilityUniversalID"])
-        patientVisit.getAssignedPatientLocation().getBuilding().setValue(locationMap["building"])
-
-        // Registro la fecha y hora de la
-        patientVisit.getAdmitDateTime().getTime().setValue(admitDateTime)
-    }
 
 
     def er7Encode() {
@@ -112,7 +94,7 @@ class HL7Message {
 
     }
 
-    def setReceivingFacilify(nameSpaceID, receivingFacilityID) {
+    def setReceivingFacility(nameSpaceID, receivingFacilityID) {
         // Indicar cuál es el servicio al que está destinado el mensaje
         this.msg.getMSH().getReceivingFacility().getNameSpaceID().setValue(nameSpaceID)
         this.msg.getMSH().getReceivingFacility().getUnversalID().setValue(receivingFacilityID)

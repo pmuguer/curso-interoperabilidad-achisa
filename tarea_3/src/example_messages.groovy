@@ -24,6 +24,18 @@ patient1LocationMap["facilityNameSpace"] = "GCBA_SIST_PUBLICO"
 patient1LocationMap["facilityUniversalID"] = "FACILITY_HOSP_ARGERICH_SERV_CLINICA_MEDICA"
 patient1LocationMap["building"] = "Edificio Principal"
 
+ormMessage1.initPV1Segment("20181209000000", patient1LocationMap)
+ormMessage1.setMessageControlID("100199")
+ormMessage1.setDateTimeOfMessage("201812110000")
+ormMessage1.setSendingApplication("GCBA_SIST_PUBLICO", "APP_SIGEHOS_HCE")
+ormMessage1.setSendingFacility("GCBA_SIST_PUBLICO",
+        "FACILITY_HOSP_ARGERICH_SERV_CLINICA_MEDICA")
+ormMessage1.setReceivingApplication("GCBA_SIST_PUBLICO",
+        "APP_RIS_ARGERICH")
+ormMessage1.setReceivingFacility("GCBA_SIST_PUBLICO",
+        "FACILITY_HOSP_ARGERICH_SERV_DIAG_IMAGENES")
+
+
 
 //initPV1Segment()
 
