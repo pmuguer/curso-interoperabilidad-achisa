@@ -77,27 +77,27 @@ class HL7Message {
 
     def setSendingApplication(nameSpaceID, sendingApplicationID) {
         // Indicar cuál es la aplicación que genera el mensaje
-        this.msg.getMSH().getSendingApplication().getNameSpaceID().setValue(nameSpaceID)
-        this.msg.getMSH().getSendingApplication().getUnversalID().setValue(sendingApplicationID)
+        this.msg.getMSH().getSendingApplication().getNamespaceID().setValue(nameSpaceID)
+        this.msg.getMSH().getSendingApplication().getUniversalID().setValue(sendingApplicationID)
     }
 
     def setSendingFacility(nameSpaceID, sendingFacilityID) {
         // Indicar cuál es el servicio que genera el mensaje
-        this.msg.getMSH().getSendingFacility().getNameSpaceID().setValue(nameSpaceID)
-        this.msg.getMSH().getSendingFacility().getUnversalID().setValue(sendingFacilityID)
+        this.msg.getMSH().getSendingFacility().getNamespaceID().setValue(nameSpaceID)
+        this.msg.getMSH().getSendingFacility().getUniversalID().setValue(sendingFacilityID)
     }
 
     def setReceivingApplication(nameSpaceID, receivingApplicationID) {
         // Indicar cuál es la aplicación a la que esta destinado el mensaje
-        this.msg.getMSH().getReceivingApplication().getNameSpaceID().setValue(nameSpaceID)
-        this.msg.getMSH().getReceivingApplication().getUnversalID().setValue(receivingApplicationID)
+        this.msg.getMSH().getReceivingApplication().getNamespaceID().setValue(nameSpaceID)
+        this.msg.getMSH().getReceivingApplication().getUniversalID().setValue(receivingApplicationID)
 
     }
 
     def setReceivingFacility(nameSpaceID, receivingFacilityID) {
         // Indicar cuál es el servicio al que está destinado el mensaje
-        this.msg.getMSH().getReceivingFacility().getNameSpaceID().setValue(nameSpaceID)
-        this.msg.getMSH().getReceivingFacility().getUnversalID().setValue(receivingFacilityID)
+        this.msg.getMSH().getReceivingFacility().getNamespaceID().setValue(nameSpaceID)
+        this.msg.getMSH().getReceivingFacility().getUniversalID().setValue(receivingFacilityID)
 
     }
 }
