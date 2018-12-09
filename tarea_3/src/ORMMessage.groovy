@@ -112,8 +112,7 @@ class ORMMessage extends HL7Message {
     def setOBRSegmentPlacerField1(placerField1) {
         // Una solicitud (ORM) puede contener varios segmentos OBR.
         // Esta función inicializa el placerField1 para el primer segmento ORM de la solicitud
-        // Este atributo es necesario para dcm4chee
-        // Atributo nro 18 de OBR
+        // Este atributo (nro 18 de OBR) es requerido por dcm4chee
         def ORM_O01_ORDER_DETAIL orderDetail = this.msg.getORDER().getORDER_DETAIL()
         def OBR obrSegment = orderDetail.getOBR()
         obrSegment.getPlacerField1().setValue(placerField1)
@@ -122,8 +121,7 @@ class ORMMessage extends HL7Message {
     def setOBRSegmentPlacerField2(placerField2) {
         // Una solicitud (ORM) puede contener varios segmentos OBR.
         // Esta función inicializa el placerField2 para el primer segmento ORM de la solicitud
-        // Este atributo es necesario para dcm4chee
-        // Atributo nro 19 de OBR
+        // Este atributo (nro 19 de OBR) es requerido por dcm4chee
         def ORM_O01_ORDER_DETAIL orderDetail = this.msg.getORDER().getORDER_DETAIL()
         def OBR obrSegment = orderDetail.getOBR()
         obrSegment.getPlacerField2().setValue(placerField2)
@@ -132,9 +130,7 @@ class ORMMessage extends HL7Message {
     def setOBRSegmentProcedureCode(identifier, text, nameOfCodingSystem) {
         // Una solicitud (ORM) puede contener varios segmentos OBR.
         // Esta función inicializa el placerField1 para el primer segmento ORM de la solicitud
-        // Este atributo es necesario para dcm4chee
-        // nro 44
-        // necesario para dcm4chee
+        // Este atributo (nro 44 de OBR) es requerido por dcm4chee
         def ORM_O01_ORDER_DETAIL orderDetail = this.msg.getORDER().getORDER_DETAIL()
 
         def OBR obrSegment = orderDetail.getOBR()
@@ -145,8 +141,10 @@ class ORMMessage extends HL7Message {
     }
 
     def setZDSSegment(field1, field2, field3, field4) {
-        // https://hapifhir.github.io/hapi-hl7v2/base/apidocs/ca/uhn/hl7v2/util/Terser.html
-        // https://sourceforge.net/p/hl7api/mailman/message/3794116/
+        // Para dcm4chee es necesario agregar el segmento ZDS
+        // La forma de agregar este segmento la obtuve de:
+        // * https://hapifhir.github.io/hapi-hl7v2/base/apidocs/ca/uhn/hl7v2/util/Terser.html
+        // * https://sourceforge.net/p/hl7api/mailman/message/3794116/
         this.msg.addNonstandardSegment("ZDS")
         Terser terser = new Terser(this.msg)
         terser.set("ZDS-1", field1)
@@ -155,5 +153,4 @@ class ORMMessage extends HL7Message {
         terser.set("ZDS-4", field4)
     }
 
-    // Agregar segmento ZDS
 }

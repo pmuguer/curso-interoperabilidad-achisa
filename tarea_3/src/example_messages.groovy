@@ -4,20 +4,22 @@ import MLLPClient
 import PatientData
 
 pd = new PatientData()
-println pd.patient1Map
 
+// Mensaje 1 =============================================================
 ormMessage1 = new ORMMessage()
 ormMessage1.initPIDSegment(pd.patient1Map)
 // "NW": nueva orden
 ormMessage1.setORCSegment("NW", "141414", "20181210000000")
-ormMessage1.setOBRSegmentUniversalServiceIdentifier("39345-4",
-        "Rayos X de rodilla",
-        "LN", "39345-4",
-        "Rayos X de rodilla", "LN")
+ormMessage1.setOBRSegmentUniversalServiceIdentifier(
+        "39345-4",
+        "XR Knee - left Sunrise and (Tunnel W standing)", "LN",
+        "39345-4",
+        "XR Knee - left Sunrise and (Tunnel W standing)", "LN")
 ormMessage1.setOBRSegmentPlacerField1("XR99992")
 ormMessage1.setOBRSegmentPlacerField2("XR99991")
-ormMessage1.setOBRSegmentProcedureCode("39345-4", "XR Knee - left Sunrise and (Tunnel W standing)",
-        "LN")
+ormMessage1.setOBRSegmentProcedureCode(
+        "39345-4",
+        "XR Knee - left Sunrise and (Tunnel W standing)", "LN")
 
 def patient1LocationMap = [:]
 patient1LocationMap["pointOfCare"] = ""
@@ -39,93 +41,90 @@ ormMessage1.setReceivingFacility("GCBA_SIST_PUBLICO",
 ormMessage1.setZDSSegment("1.2.3", "100", "Application", "DICOM")
 
 String encodedORMMessage1 = ormMessage1.er7Encode()
-def MLLPClient cli1 = new MLLPClient(config.SERVER_HOST, config.SERVER_PORT, message1ControlID, encodedORMMessage1)
+def MLLPClient cli1 = new MLLPClient(config.SERVER_HOST,
+    config.SERVER_PORT, message1ControlID, encodedORMMessage1)
+// =======================================================================
 
-/*
-//initPV1Segment()
+
+// Mensaje 2 =============================================================
+ormMessage2 = new ORMMessage()
+ormMessage2.initPIDSegment(pd.patient1Map)
+// "NW": nueva orden
+ormMessage2.setORCSegment("NW", "141414", "20181210000000")
+ormMessage2.setOBRSegmentUniversalServiceIdentifier(
+        "39345-4",
+        "XR Knee - left Sunrise and (Tunnel W standing)", "LN",
+        "39345-4",
+        "XR Knee - left Sunrise and (Tunnel W standing)", "LN")
+ormMessage2.setOBRSegmentPlacerField1("XR99992")
+ormMessage2.setOBRSegmentPlacerField2("XR99991")
+ormMessage2.setOBRSegmentProcedureCode(
+        "39345-4",
+        "XR Knee - left Sunrise and (Tunnel W standing)", "LN")
 
 def patient2LocationMap = [:]
+
 patient2LocationMap["pointOfCare"] = ""
 patient2LocationMap["facilityNameSpace"] = "GCBA_SIST_PUBLICO"
 patient2LocationMap["facilityUniversalID"] = "FACILITY_HOSP_ARGERICH_SERV_TRAUMATOLOGIA"
 patient2LocationMap["building"] = "Edificio 2"
-//initPV1Segment()
+
+ormMessage2.initPV1Segment("20181209000000", patient2LocationMap)
+String message2ControlID = "100199"
+ormMessage2.setMessageControlID(message1ControlID)
+ormMessage2.setDateTimeOfMessage("201812110000")
+ormMessage2.setSendingApplication("GCBA_SIST_PUBLICO", "APP_SIGEHOS_HCE")
+ormMessage2.setSendingFacility("GCBA_SIST_PUBLICO",
+        "FACILITY_HOSP_ARGERICH_SERV_CLINICA_MEDICA")
+ormMessage2.setReceivingApplication("GCBA_SIST_PUBLICO",
+        "APP_RIS_ARGERICH")
+ormMessage2.setReceivingFacility("GCBA_SIST_PUBLICO",
+        "FACILITY_HOSP_ARGERICH_SERV_DIAG_IMAGENES")
+ormMessage2.setZDSSegment("1.2.3", "100", "Application", "DICOM")
+
+String encodedORMMessage2 = ormMessage2.er7Encode()
+def MLLPClient cli2 = new MLLPClient(config.SERVER_HOST, config.SERVER_PORT,
+    message1ControlID, encodedORMMessage2)
+// =======================================================================
+
+
+
+// Mensaje 3 =============================================================
+ormMessage3 = new ORMMessage()
+ormMessage3.initPIDSegment(pd.patient1Map)
+// "NW": nueva orden
+ormMessage3.setORCSegment("NW", "141414", "20181210000000")
+ormMessage3.setOBRSegmentUniversalServiceIdentifier(
+        "39345-4",
+        "XR Knee - left Sunrise and (Tunnel W standing)", "LN",
+        "39345-4",
+        "XR Knee - left Sunrise and (Tunnel W standing)", "LN")
+ormMessage3.setOBRSegmentPlacerField1("XR99992")
+ormMessage3.setOBRSegmentPlacerField2("XR99991")
+ormMessage3.setOBRSegmentProcedureCode(
+        "39345-4",
+        "XR Knee - left Sunrise and (Tunnel W standing)", "LN")
 
 def patient3LocationMap = [:]
 patient3LocationMap["patient3VisitpointOfCare"] = ""
 patient3LocationMap["patient3VisitFacilityNameSpace"] = "GCBA_SIST_PUBLICO"
 patient3LocationMap["patient3VisitFacilityUniversalID"] = "FACILITY_HOSP_ARGERICH_SERV_PEDIATRIA"
 patient3LocationMap["patient3VisitBuilding"] = "Edificio 3"
-*/
 
-// ============================================================================
-// Genero mensaje ORM con los datos de la Solicitud 1
-//ormMessage1 = new ORMMessage()
+ormMessage3.initPV1Segment("20181209000000", patient3LocationMap)
+String message3ControlID = "100199"
+ormMessage3.setMessageControlID(message3ControlID)
+ormMessage3.setDateTimeOfMessage("201812110000")
+ormMessage3.setSendingApplication("GCBA_SIST_PUBLICO", "APP_SIGEHOS_HCE")
+ormMessage3.setSendingFacility("GCBA_SIST_PUBLICO",
+        "FACILITY_HOSP_ARGERICH_SERV_CLINICA_MEDICA")
+ormMessage3.setReceivingApplication("GCBA_SIST_PUBLICO",
+        "APP_RIS_ARGERICH")
+ormMessage3.setReceivingFacility("GCBA_SIST_PUBLICO",
+        "FACILITY_HOSP_ARGERICH_SERV_DIAG_IMAGENES")
+ormMessage3.setZDSSegment("1.2.3", "100", "Application", "DICOM")
 
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-
-// ============================================================================
-// Genero mensaje ADT con los datos de la Internación 1
-adtMessage1 = new ADTMessage()
-def controlID1 = "1001"
-adtMessage1.setMessageControlID(controlID1)
-adtMessage1.initSendingApplication("1", "1")
-adtMessage1.initReceivingApplication("2", "2")
-adtMessage1.setDateTimeOfMessage("20181118081615")
-adtMessage1.initPIDSegment(patientMap1)
-adtMessage1.initPV1Segment("20181118081500", locationMap1)
-String encodedMessage1 = adtMessage1.er7Encode()
-// ============================================================================
-
-
-// ============================================================================
-// Genero mensaje ADT con los datos de la Internación 2
-adtMessage2 = new ADTMessage()
-def controlID2 = "1002"
-adtMessage2.setMessageControlID(controlID2)
-adtMessage2.initSendingApplication("1", "1")
-adtMessage2.initReceivingApplication("2", "2")
-adtMessage2.setDateTimeOfMessage("20181119105036")
-adtMessage2.initPIDSegment(patientMap2)
-adtMessage2.initPV1Segment("20181119103025", locationMap2)
-String encodedMessage2 = adtMessage2.er7Encode()
-// ============================================================================
-
-
-// ============================================================================
-// Genero mensaje ADT con los datos de la Internación 2
-adtMessage3 = new ADTMessage()
-def controlID3 = "1003"
-adtMessage3.setMessageControlID(controlID3)
-adtMessage3.initSendingApplication("1", "1")
-adtMessage3.initReceivingApplication("2", "2")
-adtMessage3.setDateTimeOfMessage("20181119172531")
-adtMessage3.initPIDSegment(patientMap3)
-adtMessage3.initPV1Segment("20181119151535", locationMap3)
-String encodedMessage3 = adtMessage3.er7Encode()
-// ============================================================================
-
-
-// ============================================================================
-// Genero conexiones con el server MLLP para enviar los tres mensajes
-println("\nEnviando mensaje ADT; valor del segmento MSH-10 (Message Control ID) = " + adtMessage1.getMessageControlID())
-//println encodedMessage.normalize()
-def MLLPClient cli1 = new MLLPClient(config.SERVER_HOST, config.SERVER_PORT, controlID1, encodedMessage1)
-println("\nEnviando mensaje ADT; valor del segmento MSH-10 (Message Control ID) = " + adtMessage2.getMessageControlID())
-def MLLPClient cli2 = new MLLPClient(config.SERVER_HOST, config.SERVER_PORT, controlID2, encodedMessage2)
-println("\nEnviando mensaje ADT; valor del segmento MSH-10 (Message Control ID) = " + adtMessage3.getMessageControlID())
-def MLLPClient cli3 = new MLLPClient(config.SERVER_HOST, config.SERVER_PORT, controlID3, encodedMessage3)
-
-*/
+String encodedORMMessage3 = ormMessage3.er7Encode()
+def MLLPClient cli3 = new MLLPClient(config.SERVER_HOST, config.SERVER_PORT,
+    message1ControlID, encodedORMMessage3)
+// =======================================================================
