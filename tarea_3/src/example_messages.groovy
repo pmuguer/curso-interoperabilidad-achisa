@@ -1,6 +1,6 @@
-//import config
+import config
 import ORMMessage
-//import MLLPClient
+import MLLPClient
 import PatientData
 
 pd = new PatientData()
@@ -11,10 +11,11 @@ ormMessage1.initPIDSegment(pd.patient1Map)
 // "NW": nueva orden
 ormMessage1.setORCSegment("NW", "141414", "20181210000000")
 ormMessage1.setOBRSegmentUniversalServiceIdentifier("39345-4",
-        "XR Knee - left Sunrise and (Tunnel W standing)",
+        "Rayos X de rodilla",
         "LN", "39345-4",
-        "XR Knee - left Sunrise and (Tunnel W standing)", "LN")
-ormMessage1.setOBRSegmentPlacerField1("XR999995")
+        "Rayos X de rodilla", "LN")
+ormMessage1.setOBRSegmentPlacerField1("XR99992")
+ormMessage1.setOBRSegmentPlacerField2("XR99991")
 ormMessage1.setOBRSegmentProcedureCode("39345-4", "XR Knee - left Sunrise and (Tunnel W standing)",
         "LN")
 
@@ -25,7 +26,8 @@ patient1LocationMap["facilityUniversalID"] = "FACILITY_HOSP_ARGERICH_SERV_CLINIC
 patient1LocationMap["building"] = "Edificio Principal"
 
 ormMessage1.initPV1Segment("20181209000000", patient1LocationMap)
-ormMessage1.setMessageControlID("100199")
+String message1ControlID = "100199"
+ormMessage1.setMessageControlID(message1ControlID)
 ormMessage1.setDateTimeOfMessage("201812110000")
 ormMessage1.setSendingApplication("GCBA_SIST_PUBLICO", "APP_SIGEHOS_HCE")
 ormMessage1.setSendingFacility("GCBA_SIST_PUBLICO",
@@ -34,9 +36,12 @@ ormMessage1.setReceivingApplication("GCBA_SIST_PUBLICO",
         "APP_RIS_ARGERICH")
 ormMessage1.setReceivingFacility("GCBA_SIST_PUBLICO",
         "FACILITY_HOSP_ARGERICH_SERV_DIAG_IMAGENES")
+ormMessage1.setZDSSegment("1.2.3", "100", "Application", "DICOM")
 
+String encodedORMMessage1 = ormMessage1.er7Encode()
+def MLLPClient cli1 = new MLLPClient(config.SERVER_HOST, config.SERVER_PORT, message1ControlID, encodedORMMessage1)
 
-
+/*
 //initPV1Segment()
 
 def patient2LocationMap = [:]
@@ -51,7 +56,7 @@ patient3LocationMap["patient3VisitpointOfCare"] = ""
 patient3LocationMap["patient3VisitFacilityNameSpace"] = "GCBA_SIST_PUBLICO"
 patient3LocationMap["patient3VisitFacilityUniversalID"] = "FACILITY_HOSP_ARGERICH_SERV_PEDIATRIA"
 patient3LocationMap["patient3VisitBuilding"] = "Edificio 3"
-
+*/
 
 // ============================================================================
 // Genero mensaje ORM con los datos de la Solicitud 1

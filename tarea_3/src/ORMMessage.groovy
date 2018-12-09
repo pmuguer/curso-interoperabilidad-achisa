@@ -8,6 +8,7 @@ import ca.uhn.hl7v2.model.v25.group.ORM_O01_ORDER_DETAIL
 import ca.uhn.hl7v2.model.v25.group.ORM_O01_OBSERVATION
 import ca.uhn.hl7v2.model.v25.segment.OBR
 import ca.uhn.hl7v2.model.v25.segment.PV1
+import ca.uhn.hl7v2.util.Terser
 
 class ORMMessage extends HL7Message {
     // Clase que simplifica la creación de un mensaje ORM, usando HAPI
@@ -112,11 +113,20 @@ class ORMMessage extends HL7Message {
         // Una solicitud (ORM) puede contener varios segmentos OBR.
         // Esta función inicializa el placerField1 para el primer segmento ORM de la solicitud
         // Este atributo es necesario para dcm4chee
-        // nro 18
-        // <OBR.18>XR999995</OBR.18>
+        // Atributo nro 18 de OBR
         def ORM_O01_ORDER_DETAIL orderDetail = this.msg.getORDER().getORDER_DETAIL()
         def OBR obrSegment = orderDetail.getOBR()
         obrSegment.getPlacerField1().setValue(placerField1)
+    }
+
+    def setOBRSegmentPlacerField2(placerField2) {
+        // Una solicitud (ORM) puede contener varios segmentos OBR.
+        // Esta función inicializa el placerField2 para el primer segmento ORM de la solicitud
+        // Este atributo es necesario para dcm4chee
+        // Atributo nro 19 de OBR
+        def ORM_O01_ORDER_DETAIL orderDetail = this.msg.getORDER().getORDER_DETAIL()
+        def OBR obrSegment = orderDetail.getOBR()
+        obrSegment.getPlacerField2().setValue(placerField2)
     }
 
     def setOBRSegmentProcedureCode(identifier, text, nameOfCodingSystem) {
@@ -133,4 +143,17 @@ class ORMMessage extends HL7Message {
         procedureCode.getText().setValue(text)
         procedureCode.getNameOfCodingSystem().setValue(nameOfCodingSystem)
     }
+
+    def setZDSSegment(field1, field2, field3, field4) {
+        // https://hapifhir.github.io/hapi-hl7v2/base/apidocs/ca/uhn/hl7v2/util/Terser.html
+        // https://sourceforge.net/p/hl7api/mailman/message/3794116/
+        this.msg.addNonstandardSegment("ZDS")
+        Terser terser = new Terser(this.msg)
+        terser.set("ZDS-1", field1)
+        terser.set("ZDS-2", field2)
+        terser.set("ZDS-3", field3)
+        terser.set("ZDS-4", field4)
+    }
+
+    // Agregar segmento ZDS
 }

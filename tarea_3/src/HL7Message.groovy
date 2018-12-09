@@ -32,13 +32,7 @@ class HL7Message {
         // Processing ID ("T" corresponde a "training")
         // http://hl7-definition.caristix.com:9010/Default.aspx?version=HL7%20v2.5.1&table=0103
         mshSegment.getProcessingID().getProcessingID().setValue("T")
-        
-        // Processing Mode ("T" corresponde a "Current processing")
-        // http://hl7-definition.caristix.com:9010/Default.aspx?version=HL7%20v2.5.1&table=0207
-        mshSegment.getProcessingID().getProcessingMode().setValue("T")
     }
-
-
 
     def er7Encode() {
         HapiContext context = new DefaultHapiContext();

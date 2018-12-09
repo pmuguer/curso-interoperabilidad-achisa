@@ -19,9 +19,9 @@ class PatientData {
         // Registro apellido, nombre, fecha de nacimiento y sexo
         // Como indico que se usa el encoding ISO-8859-1 puedo usar acentos
         // (Nota: este archivo está guardado como latin-1)
-        this.patient1Map["surName"] = "Martín"
-        this.patient1Map["givenName"] = "Sánchez"
-        this.patient1Map["dateTimeOfBirth"] = "19200821"
+        this.patient1Map["surName"] = "Jaime"
+        this.patient1Map["givenName"] = "Olsen"
+        this.patient1Map["dateTimeOfBirth"] = "44300821"
         this.patient1Map["administrativeSex"] = "M"
         this.patient1Map["id0"] = patient1Id0
         this.patient1Map["id1"] = patient1Id1
