@@ -13,7 +13,7 @@ String dicomCode1 = "100"
 ormMessage1 = new ORMMessage()
 ormMessage1.initPIDSegment(pd.patient1Map)
 // "NW": nueva orden
-ormMessage1.setORCSegment("NW", message1ControlId, timestamp1)
+ormMessage1.setORCSegment("NW", message1ControlID, timestamp1)
 // Indico la práctica solicitada (Universal Service Identifier)
 // Uso codificación Loinc ("LN")
 ormMessage1.setOBRSegmentUniversalServiceIdentifier(
