@@ -1,4 +1,4 @@
-// Se importan las clases requeridas para mensajes de tipo ADT
+// Se importan las clases requeridas para mensajes ORM
 // Al importar tener en cuenta la version, aquí es 2.5
 import ca.uhn.hl7v2.model.v25.message.ORM_O01
 import ca.uhn.hl7v2.model.v25.group.ORM_O01_PATIENT
