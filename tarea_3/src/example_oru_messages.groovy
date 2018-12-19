@@ -61,7 +61,10 @@ oruMessage1.setReceivingFacility("GCBA_SIST_PUBLICO",
 //oruMessage1.setOBRSegmentObservationDateTime(timestamp1)
 //oruMessage1.setOBRSegmentResultsRptStatusChngDateTime(timestamp1)
 oruMessage1.setOBXSegmentStudyInstanceUID("1.2.3.4.5")
-
+oruMessage1.setOBXSegmentSeriesInstanceUID("2.3.4.5.6")
+oruMessage1.setOBXSegmentSOPInstanceUID("3.4.5.6.7")
+oruMessage1.setOBXSegmentSRInstanceUID("4.5.6.7.8")
+oruMessage1.setOBXSegmentSRText("Resultado de RX")
 /*
 
 String encodedORUMessage1 = oruMessage1.er7Encode()

@@ -17,6 +17,7 @@ import ca.uhn.hl7v2.model.v25.group.ORU_R01_SPECIMEN
 import ca.uhn.hl7v2.model.v25.segment.OBX
 
 import ca.uhn.hl7v2.model.v25.datatype.HD
+import ca.uhn.hl7v2.model.v25.datatype.TX
 import ca.uhn.hl7v2.model.Varies
 
 
@@ -171,14 +172,86 @@ class ORUMessage extends HL7Message {
         // Se indica de qué tipo es el valor que se registrará en el
         // atributo 5 (observation value). En este caso es HD (Hyerarchic Designator)
         obx.getObx2_ValueType().setValue("HD")
-
+        obx.getObx3_ObservationIdentifier().getCe2_Text().setValue("Study Instance UID")
         // Creo una instancia de HD (que es el tipo del atributo OBX-5 indicado
         // en OBX-2, y asigno el valor al atributo OBX-5
         HD hd = new HD(this.msg)
         hd.getHd1_NamespaceID().setValue(studyInstanceUID)
         obx.getObservationValue(0).setData(hd)
-
-
     }
+
+    def setOBXSegmentSeriesInstanceUID(seriesInstanceUID) {
+        def ORU_R01_PATIENT_RESULT patientResult = this.msg.getPATIENT_RESULT()
+        def ORU_R01_ORDER_OBSERVATION orderObservation = patientResult.getORDER_OBSERVATION()
+        def ORU_R01_SPECIMEN orderSpecimen = orderObservation.getSPECIMEN()
+        def OBX obx = orderSpecimen.getOBX()
+
+        obx.getObx1_SetIDOBX().setValue("2")
+        // Se indica de qué tipo es el valor que se registrará en el
+        // atributo 5 (observation value). En este caso es HD (Hyerarchic Designator)
+        obx.getObx2_ValueType().setValue("HD")
+        obx.getObx3_ObservationIdentifier().getCe2_Text().setValue("Series Instance UID")
+        // Creo una instancia de HD (que es el tipo del atributo OBX-5 indicado
+        // en OBX-2, y asigno el valor al atributo OBX-5
+        HD hd = new HD(this.msg)
+        hd.getHd1_NamespaceID().setValue(seriesInstanceUID)
+        obx.getObservationValue(0).setData(hd)
+    }
+
+    def setOBXSegmentSOPInstanceUID(sopInstanceUID) {
+        def ORU_R01_PATIENT_RESULT patientResult = this.msg.getPATIENT_RESULT()
+        def ORU_R01_ORDER_OBSERVATION orderObservation = patientResult.getORDER_OBSERVATION()
+        def ORU_R01_SPECIMEN orderSpecimen = orderObservation.getSPECIMEN()
+        def OBX obx = orderSpecimen.getOBX()
+
+        obx.getObx1_SetIDOBX().setValue("3")
+        // Se indica de qué tipo es el valor que se registrará en el
+        // atributo 5 (observation value). En este caso es HD (Hyerarchic Designator)
+        obx.getObx2_ValueType().setValue("HD")
+        obx.getObx3_ObservationIdentifier().getCe2_Text().setValue("SOP Instance UID")
+        // Creo una instancia de HD (que es el tipo del atributo OBX-5 indicado
+        // en OBX-2, y asigno el valor al atributo OBX-5
+        HD hd = new HD(this.msg)
+        hd.getHd1_NamespaceID().setValue(sopInstanceUID)
+        obx.getObservationValue(0).setData(hd)
+    }
+
+    def setOBXSegmentSRInstanceUID(srInstanceUID) {
+        def ORU_R01_PATIENT_RESULT patientResult = this.msg.getPATIENT_RESULT()
+        def ORU_R01_ORDER_OBSERVATION orderObservation = patientResult.getORDER_OBSERVATION()
+        def ORU_R01_SPECIMEN orderSpecimen = orderObservation.getSPECIMEN()
+        def OBX obx = orderSpecimen.getOBX()
+
+        obx.getObx1_SetIDOBX().setValue("4")
+        // Se indica de qué tipo es el valor que se registrará en el
+        // atributo 5 (observation value). En este caso es HD (Hyerarchic Designator)
+        obx.getObx2_ValueType().setValue("HD")
+        obx.getObx3_ObservationIdentifier().getCe2_Text().setValue("SR Instance UID")
+        // Creo una instancia de HD (que es el tipo del atributo OBX-5 indicado
+        // en OBX-2, y asigno el valor al atributo OBX-5
+        HD hd = new HD(this.msg)
+        hd.getHd1_NamespaceID().setValue(srInstanceUID)
+        obx.getObservationValue(0).setData(hd)
+    }
+
+    def setOBXSegmentSRText(srText) {
+        def ORU_R01_PATIENT_RESULT patientResult = this.msg.getPATIENT_RESULT()
+        def ORU_R01_ORDER_OBSERVATION orderObservation = patientResult.getORDER_OBSERVATION()
+        def ORU_R01_SPECIMEN orderSpecimen = orderObservation.getSPECIMEN()
+        def OBX obx = orderSpecimen.getOBX()
+
+        obx.getObx1_SetIDOBX().setValue("5")
+        // Se indica de qué tipo es el valor que se registrará en el
+        // atributo 5 (observation value). En este caso es HD (Hyerarchic Designator)
+        obx.getObx2_ValueType().setValue("TX")
+        obx.getObx3_ObservationIdentifier().getCe2_Text().setValue("SR Text")
+        // Creo una instancia de HD (que es el tipo del atributo OBX-5 indicado
+        // en OBX-2, y asigno el valor al atributo OBX-5
+        TX tx = new TX(this.msg)
+        tx.setValue(srText)
+        obx.getObservationValue(0).setData(tx)
+    }
+
+   
 
 }
