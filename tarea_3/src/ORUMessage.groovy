@@ -2,24 +2,15 @@
 // Al importar tener en cuenta la version, aquí es 2.5
 import ca.uhn.hl7v2.model.v25.message.ORU_R01
 import ca.uhn.hl7v2.model.v25.group.ORU_R01_PATIENT
-
 import ca.uhn.hl7v2.model.v25.segment.PID
-import ca.uhn.hl7v2.model.v25.segment.ORC
-import ca.uhn.hl7v2.model.v25.group.ORM_O01_ORDER_DETAIL
-import ca.uhn.hl7v2.model.v25.group.ORM_O01_OBSERVATION
 import ca.uhn.hl7v2.model.v25.segment.OBR
 import ca.uhn.hl7v2.model.v25.segment.PV1
-//import ca.uhn.hl7v2.util.Terser
-
 import ca.uhn.hl7v2.model.v25.group.ORU_R01_PATIENT_RESULT
 import ca.uhn.hl7v2.model.v25.group.ORU_R01_ORDER_OBSERVATION
 import ca.uhn.hl7v2.model.v25.group.ORU_R01_SPECIMEN
 import ca.uhn.hl7v2.model.v25.segment.OBX
-
 import ca.uhn.hl7v2.model.v25.datatype.HD
 import ca.uhn.hl7v2.model.v25.datatype.TX
-import ca.uhn.hl7v2.model.Varies
-
 
 
 class ORUMessage extends HL7Message {
@@ -99,18 +90,14 @@ class ORUMessage extends HL7Message {
     }
     */
 
-    /* def setOBRSegmentUniversalServiceIdentifier(identifier, text, nameOfCodingSystem,
+    def setOBRSegmentUniversalServiceIdentifier(identifier, text, nameOfCodingSystem,
                                                 alternateIdentifier, alternateText,
                                                 nameOfAlternateCodingSystem) {
-        // Un mensaje ORU puede contener varios segmentos OBR.
-        // Esta función inicializa el USI para el primer segmento ORM
 
-        // El atributo Universal Service Identifier es obligatorio,
-        // representa la práctica para la que se informa el resultado
-        // Es de tipo CE, que consiste de seis atributos
-        def ORM_O01_ORDER_DETAIL orderDetail = this.msg.getORDER().getORDER_DETAIL()
+        def ORU_R01_PATIENT_RESULT patientResult = this.msg.getPATIENT_RESULT()
+        def ORU_R01_ORDER_OBSERVATION orderObservation = patientResult.getORDER_OBSERVATION()
+        def OBR obrSegment = orderObservation.getOBR()
 
-        def OBR obrSegment = orderDetail.getOBR()
         def universalServiceIdentifier = obrSegment.getUniversalServiceIdentifier()
         universalServiceIdentifier.getIdentifier().setValue(identifier)
         universalServiceIdentifier.getText().setValue(text)
@@ -122,51 +109,49 @@ class ORUMessage extends HL7Message {
     }
 
     def setOBRSegmentPlacerField1(placerField1) {
-        // Una solicitud (ORM) puede contener varios segmentos OBR.
-        // Esta función inicializa el placerField1 para el primer segmento ORM de la solicitud
-        // Este atributo (nro 18 de OBR) es requerido por dcm4chee
-        def ORM_O01_ORDER_DETAIL orderDetail = this.msg.getORDER().getORDER_DETAIL()
-        def OBR obrSegment = orderDetail.getOBR()
+        def ORU_R01_PATIENT_RESULT patientResult = this.msg.getPATIENT_RESULT()
+        def ORU_R01_ORDER_OBSERVATION orderObservation = patientResult.getORDER_OBSERVATION()
+        def OBR obrSegment = orderObservation.getOBR()
         obrSegment.getPlacerField1().setValue(placerField1)
     }
 
     def setOBRSegmentPlacerField2(placerField2) {
-        // Una solicitud (ORM) puede contener varios segmentos OBR.
-        // Esta función inicializa el placerField2 para el primer segmento ORM de la solicitud
-        // Este atributo (nro 19 de OBR) es requerido por dcm4chee
-        def ORM_O01_ORDER_DETAIL orderDetail = this.msg.getORDER().getORDER_DETAIL()
-        def OBR obrSegment = orderDetail.getOBR()
+        def ORU_R01_PATIENT_RESULT patientResult = this.msg.getPATIENT_RESULT()
+        def ORU_R01_ORDER_OBSERVATION orderObservation = patientResult.getORDER_OBSERVATION()
+        def OBR obrSegment = orderObservation.getOBR()
         obrSegment.getPlacerField2().setValue(placerField2)
     }
 
     def setOBRSegmentProcedureCode(identifier, text, nameOfCodingSystem) {
-        // Una solicitud (ORM) puede contener varios segmentos OBR.
-        // Esta función inicializa el placerField1 para el primer segmento ORM de la solicitud
-        // Este atributo (nro 44 de OBR) es requerido por dcm4chee
-        def ORM_O01_ORDER_DETAIL orderDetail = this.msg.getORDER().getORDER_DETAIL()
+        def ORU_R01_PATIENT_RESULT patientResult = this.msg.getPATIENT_RESULT()
+        def ORU_R01_ORDER_OBSERVATION orderObservation = patientResult.getORDER_OBSERVATION()
+        def OBR obrSegment = orderObservation.getOBR()
 
-        def OBR obrSegment = orderDetail.getOBR()
         def procedureCode = obrSegment.getProcedureCode()
         procedureCode.getIdentifier().setValue(identifier)
         procedureCode.getText().setValue(text)
         procedureCode.getNameOfCodingSystem().setValue(nameOfCodingSystem)
-    } */
+    }
 
     def setOBRSegmentObservationDateTime(dateTime) {
-        def OBR obrSegment = this.msg.getPATIENT_RESULT().getORDER_OBSERVATION().getOBR()
-        obrSegment.getObr7_ObservationDateTime().setValue(dateTime)
+        def ORU_R01_PATIENT_RESULT patientResult = this.msg.getPATIENT_RESULT()
+        def ORU_R01_ORDER_OBSERVATION orderObservation = patientResult.getORDER_OBSERVATION()
+        def OBR obrSegment = orderObservation.getOBR()
+        obrSegment.getObr7_ObservationDateTime().parse(dateTime)
     }
 
     def setOBRSegmentResultsRptStatusChngDateTime(dateTime) {
-        def OBR obrSegment = this.msg.getPATIENT_RESULT().getORDER_OBSERVATION().getOBR()
-        obrSegment.getObr22_ResultsRptStatusChngDateTime(dateTime)
+        def ORU_R01_PATIENT_RESULT patientResult = this.msg.getPATIENT_RESULT()
+        def ORU_R01_ORDER_OBSERVATION orderObservation = patientResult.getORDER_OBSERVATION()
+        def OBR obrSegment = orderObservation.getOBR()
+        obrSegment.getObr22_ResultsRptStatusChngDateTime().parse(dateTime)
     }
 
     def setOBXSegmentStudyInstanceUID(studyInstanceUID) {
         def ORU_R01_PATIENT_RESULT patientResult = this.msg.getPATIENT_RESULT()
         def ORU_R01_ORDER_OBSERVATION orderObservation = patientResult.getORDER_OBSERVATION()
         def ORU_R01_SPECIMEN orderSpecimen = orderObservation.getSPECIMEN()
-        def OBX obx = orderSpecimen.getOBX()
+        def OBX obx = orderSpecimen.getOBX(0)
 
         obx.getObx1_SetIDOBX().setValue("1")
         // Se indica de qué tipo es el valor que se registrará en el
@@ -184,7 +169,7 @@ class ORUMessage extends HL7Message {
         def ORU_R01_PATIENT_RESULT patientResult = this.msg.getPATIENT_RESULT()
         def ORU_R01_ORDER_OBSERVATION orderObservation = patientResult.getORDER_OBSERVATION()
         def ORU_R01_SPECIMEN orderSpecimen = orderObservation.getSPECIMEN()
-        def OBX obx = orderSpecimen.getOBX()
+        def OBX obx = orderSpecimen.getOBX(1)
 
         obx.getObx1_SetIDOBX().setValue("2")
         // Se indica de qué tipo es el valor que se registrará en el
@@ -202,7 +187,7 @@ class ORUMessage extends HL7Message {
         def ORU_R01_PATIENT_RESULT patientResult = this.msg.getPATIENT_RESULT()
         def ORU_R01_ORDER_OBSERVATION orderObservation = patientResult.getORDER_OBSERVATION()
         def ORU_R01_SPECIMEN orderSpecimen = orderObservation.getSPECIMEN()
-        def OBX obx = orderSpecimen.getOBX()
+        def OBX obx = orderSpecimen.getOBX(2)
 
         obx.getObx1_SetIDOBX().setValue("3")
         // Se indica de qué tipo es el valor que se registrará en el
@@ -220,7 +205,7 @@ class ORUMessage extends HL7Message {
         def ORU_R01_PATIENT_RESULT patientResult = this.msg.getPATIENT_RESULT()
         def ORU_R01_ORDER_OBSERVATION orderObservation = patientResult.getORDER_OBSERVATION()
         def ORU_R01_SPECIMEN orderSpecimen = orderObservation.getSPECIMEN()
-        def OBX obx = orderSpecimen.getOBX()
+        def OBX obx = orderSpecimen.getOBX(3)
 
         obx.getObx1_SetIDOBX().setValue("4")
         // Se indica de qué tipo es el valor que se registrará en el
@@ -238,7 +223,7 @@ class ORUMessage extends HL7Message {
         def ORU_R01_PATIENT_RESULT patientResult = this.msg.getPATIENT_RESULT()
         def ORU_R01_ORDER_OBSERVATION orderObservation = patientResult.getORDER_OBSERVATION()
         def ORU_R01_SPECIMEN orderSpecimen = orderObservation.getSPECIMEN()
-        def OBX obx = orderSpecimen.getOBX()
+        def OBX obx = orderSpecimen.getOBX(4)
 
         obx.getObx1_SetIDOBX().setValue("5")
         // Se indica de qué tipo es el valor que se registrará en el
@@ -251,7 +236,5 @@ class ORUMessage extends HL7Message {
         tx.setValue(srText)
         obx.getObservationValue(0).setData(tx)
     }
-
-   
 
 }

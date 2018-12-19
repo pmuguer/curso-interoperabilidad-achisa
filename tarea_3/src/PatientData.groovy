@@ -9,19 +9,19 @@ class PatientData {
         // Registro id0: Identificador único dentro del sistema público del GCBA
         def patient1Id0 = [:]
         patient1Id0["assigningAuthority"] = "HCE_GCBA"
-        patient1Id0["idNumber"] = "201324"
+        patient1Id0["idNumber"] = "2013299"
         
         // Registro id1: Identificador único para Argentina (DNI, asignado por RENAPER)
         def patient1Id1 = [:]
         patient1Id1["assigningAuthority"] = "RENAPER"
-        patient1Id1["idNumber"] = "10324121"
+        patient1Id1["idNumber"] = "103241278"
        
         // Registro apellido, nombre, fecha de nacimiento y sexo
         // Como indico que se usa el encoding ISO-8859-1 puedo usar acentos
         // (Nota: este archivo está guardado como latin-1)
-        this.patient1Map["surName"] = "Jaime"
-        this.patient1Map["givenName"] = "Olsen"
-        this.patient1Map["dateTimeOfBirth"] = "44300821"
+        this.patient1Map["surName"] = "Paul"
+        this.patient1Map["givenName"] = "McCartney"
+        this.patient1Map["dateTimeOfBirth"] = "55300821"
         this.patient1Map["administrativeSex"] = "M"
         this.patient1Map["id0"] = patient1Id0
         this.patient1Map["id1"] = patient1Id1

@@ -6,8 +6,8 @@ import PatientData
 pd = new PatientData()
 
 // Mensaje 1 =============================================================
-def timestamp1 = "20181210000000" 
-String message1ControlID = "22221"
+def timestamp1 = "20181210000001" 
+String message1ControlID = "223234"
 // String dicomCode1 = "100"
 
 oruMessage1 = new ORUMessage()
@@ -60,17 +60,21 @@ oruMessage1.setReceivingFacility("GCBA_SIST_PUBLICO",
 // para que los mensajes funcionen hay que convertir string a ¿? (TS de HAPI)
 //oruMessage1.setOBRSegmentObservationDateTime(timestamp1)
 //oruMessage1.setOBRSegmentResultsRptStatusChngDateTime(timestamp1)
-oruMessage1.setOBXSegmentStudyInstanceUID("1.2.3.4.5")
-oruMessage1.setOBXSegmentSeriesInstanceUID("2.3.4.5.6")
-oruMessage1.setOBXSegmentSOPInstanceUID("3.4.5.6.7")
-oruMessage1.setOBXSegmentSRInstanceUID("4.5.6.7.8")
+oruMessage1.setOBXSegmentStudyInstanceUID("1.2.3.4")
+oruMessage1.setOBXSegmentSeriesInstanceUID("2.3.4.5")
+oruMessage1.setOBXSegmentSOPInstanceUID("3.4.5.6")
+oruMessage1.setOBXSegmentSRInstanceUID("4.5.6.7")
 oruMessage1.setOBXSegmentSRText("Resultado de RX")
-/*
+
+oruMessage1.setOBRSegmentUniversalServiceIdentifier("1000-1", "RX", "LN", "1000-1", "RX", "LN")
+oruMessage1.setOBRSegmentProcedureCode("1000-1", "RX", "LN")
+oruMessage1.setOBRSegmentResultsRptStatusChngDateTime("20181218141200")
+oruMessage1.setOBRSegmentPlacerField1("214894")
+oruMessage1.setOBRSegmentPlacerField2("453275")
 
 String encodedORUMessage1 = oruMessage1.er7Encode()
+print encodedORUMessage1.normalize()
 // Envío el mensaje 1
 def MLLPClient cli1 = new MLLPClient(config.SERVER_HOST,
     config.SERVER_PORT, message1ControlID, encodedORUMessage1)
 // =======================================================================
-
-*/
